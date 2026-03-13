@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  height: 52px;
+  border-bottom: 1px solid #e8ecf0;
+  background: #f5f7fa;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.date {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+}
+
+.today {
+  background: #fff0f0;
+}
+
+.today .date {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.weekend {
+  background: #f8f8fc;
+}
+
+.weekend .date {
+  color: #aaa;
+}
