@@ -1,0 +1,81 @@
+.timelineContainer {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background: #fafbfc;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar {
+  min-width: 220px;
+  max-width: 220px;
+  border-right: 2px solid #e8ecf0;
+  background: white;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.sidebarHeader {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #e8ecf0;
+  background: #f5f7fa;
+}
+
+.sidebarLane {
+  height: 80px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.emptyHint {
+  padding: 24px 16px;
+  color: #aaa;
+  font-size: 14px;
+  text-align: center;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.timelineGrid {
+  position: relative;
+  min-height: 100%;
+}
+
+.todayLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ff6b6b;
+  z-index: 3;
+  opacity: 0.6;
+}
+
+.todayLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  background: #ff6b6b;
+  border-radius: 50%;
+}
+
+.laneRow {
+  height: 80px;
+  position: relative;
+  border-bottom: 1px solid #f0f2f5;
+}
