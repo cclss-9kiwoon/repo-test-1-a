@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Showcase — Weather & Sunset</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #08080f;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(100, 60, 255, 0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(255, 100, 30, 0.08) 0%, transparent 60%);
+      z-index: 0;
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      max-width: 900px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #7777ff, #ff8833);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 56px;
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 36px 32px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: #fff;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-height: 240px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+
+    .card-weather {
+      background: linear-gradient(135deg, rgba(40, 30, 80, 0.8), rgba(15, 15, 40, 0.9));
+    }
+
+    .card-sunset {
+      background: linear-gradient(135deg, rgba(80, 30, 10, 0.8), rgba(40, 10, 5, 0.9));
+    }
+
+    .card-version {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 12px;
+    }
+
+    .card-emoji {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .card-cta {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .card:hover .card-cta {
+      opacity: 1;
+    }
+
+    .card-cta::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+
+    .card:hover .card-cta::after {
+      transform: translateX(4px);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 24px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 1px;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        min-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">3D Showcase Collection</div>
+    <h1>Experience <span>Nature</span><br/>in Three Dimensions</h1>
+    <p class="subtitle">Two immersive 3D experiences built with Three.js & GSAP scroll animations</p>
+
+    <div class="cards">
+      <a href="./weather/" class="card card-weather">
+        <div class="card-version">V1 — Weather</div>
+        <div class="card-emoji">⚡🌧❄☀💨</div>
+        <div class="card-title">Weather Showcase</div>
+        <div class="card-desc">Thunder, Rain, Snow, Sunny, Wind — five weather phenomena in immersive 3D with Apple-style scroll animations</div>
+        <div class="card-cta">Explore Weather</div>
+      </a>
+      <a href="./sunset/" class="card card-sunset">
+        <div class="card-version">V2 — Sunset</div>
+        <div class="card-emoji">🌅🪐</div>
+        <div class="card-title">Sunset Experience</div>
+        <div class="card-desc">Ocean sunset on a sandy beach, and a Little Prince-inspired planet sunset in the cosmos</div>
+        <div class="card-cta">Explore Sunset</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">Built with Three.js & GSAP</div>
+</body>
+</html>
