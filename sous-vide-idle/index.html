@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수비드 키우기 — Sous Vide Idle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>🥩 수비드 키우기</h1>
+      <div class="header-info">
+        <span id="stage-info">스테이지 1 / 20</span>
+        <span id="gold-info">💰 0 G</span>
+        <span id="current-element">팀 속성: 🔥 불</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- Battle Area -->
+      <section class="battle-area">
+        <div class="team-side">
+          <h2>🛡️ 내 팀</h2>
+          <div id="team-cards" class="team-cards"></div>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="enemy-side">
+          <h2>👹 적</h2>
+          <div id="enemy-section"></div>
+        </div>
+      </section>
+
+      <!-- Battle Log -->
+      <section class="log-section">
+        <h2>📜 전투 로그</h2>
+        <div id="battle-log" class="battle-log"></div>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls-section">
+        <div class="control-group">
+          <h3>속성 변경</h3>
+          <div id="element-buttons" class="element-buttons"></div>
+        </div>
+
+        <div class="control-group">
+          <h3>강화</h3>
+          <button id="btn-upgrade-atk" class="upgrade-btn">⚔️ 공격력 UP</button>
+          <button id="btn-upgrade-hp" class="upgrade-btn">❤️ 체력 UP</button>
+        </div>
+
+        <div class="control-group">
+          <h3>진행</h3>
+          <button id="btn-next-stage" class="next-btn">➡️ 다음 스테이지</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
