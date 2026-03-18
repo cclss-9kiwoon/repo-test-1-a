@@ -31,8 +31,8 @@ var spawn_position: Vector2 = Vector2.ZERO
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-@onready var standing_shape: RectangleShape2D = preload("res://data/shapes/standing_shape.tres") if ResourceLoader.exists("res://data/shapes/standing_shape.tres") else null
-@onready var crouching_shape: RectangleShape2D = preload("res://data/shapes/crouching_shape.tres") if ResourceLoader.exists("res://data/shapes/crouching_shape.tres") else null
+var standing_shape: RectangleShape2D = null
+var crouching_shape: RectangleShape2D = null
 
 
 func _ready() -> void:
