@@ -8,6 +8,7 @@ import { MealLog } from "@/types";
 import { CUISINE_LABELS } from "@/lib/constants";
 import { isToday, isYesterday, format } from "date-fns";
 import { ko } from "date-fns/locale";
+import LittlePlanet from "@/components/LittlePlanet";
 
 function formatRelativeDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -52,9 +53,12 @@ export default function HomePage() {
   const todayMeal = meals.find((m) => isToday(new Date(m.date)));
 
   return (
-    <div className="px-5 pt-12 space-y-6">
+    <div className="px-5 pt-6 space-y-4">
+      {/* Little Planet Illustration */}
+      <LittlePlanet />
+
       {/* Header */}
-      <div>
+      <div className="text-center -mt-2">
         <h1 className="text-2xl font-bold">{getGreeting()} 🍚</h1>
         <p className="text-muted text-sm mt-1">
           {todayMeal
