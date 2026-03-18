@@ -1,175 +1,281 @@
-# AI Art Generation Prompts Guide
+# AI Art Generation Prompts Guide — 1930s Rubber Hose Style
 
-This guide provides ready-to-use prompts for generating game sprites with AI tools.
-Replace placeholder sprites in `assets/sprites/` with generated art.
+This guide provides ready-to-use prompts for generating game sprites in the
+**1930s rubber hose cartoon / Cuphead** style. Replace placeholder sprites in
+`assets/sprites/` with generated art.
+
+---
+
+## Art Style Reference
+
+### Core Visual Style
+- **Thick ink outlines** with tapered brush strokes
+- **Watercolor wash** shading (not flat color, not cell-shading)
+- **Rubber hose limbs** — no joints, noodle-like arms and legs
+- **Squash & stretch** on all animations
+- **Pie-cut eyes** (white circle with black wedge pupil)
+- **Big round shoes** and **white gloves** (era-typical)
+- **Vintage paper texture** — cream/sepia undertone
+- **Film grain overlay** in final compositing
+
+### Color Palette
+```
+Background cream:  #F5E6C8    Ink black:       #1A1A1A
+Warm paper:        #EED9B6    Soft shadow:     #8B7355
+Highlight:         #FFF8E7    Sepia midtone:   #C4A882
+Accent red:        #8B3A3A    Accent gold:     #B8860B
+Leaf green:        #556B2F    Sky blue:        #9BB5C5
+Apple red:         #A52A2A    Water blue:      #6B8FA3
+```
 
 ---
 
 ## Tool Setup
 
-### PixelLab (pixellab.ai) — Primary sprite tool
-- Best for: character animation sprite sheets
-- Supports: consistent style across frames, transparency, animation
-
-### Midjourney — Style reference
-- Best for: concept art, environment backgrounds
-- Use `--sref [URL]` for style consistency
+### Midjourney (Primary — concept art + backgrounds)
+- Use `--sref [URL]` to lock rubber hose style across generations
 - Use `--seed [number]` for repeatable results
+- Recommended flags: `--ar 1:1 --style raw --stylize 200`
 
-### Aseprite — Cleanup & export
+### Stable Diffusion + ControlNet (Animation frames)
+- Use OpenPose or depth ControlNet for consistent character poses
+- Train LoRA on selected Midjourney outputs for style consistency
+- Generate animation frames with pose sequence
+
+### Procreate / Clip Studio Paint (Cleanup)
 - Import generated sprites
-- Clean up artifacts, align frames
-- Export as sprite sheet PNG + JSON metadata
+- Clean up artifacts, add tapered ink outlines
+- Align animation frames, set timing
+- Export as individual PNG frames
+
+### Suno AI (Music)
+- Generate ragtime/jazz BGM tracks
+- Style prompt: "1920s ragtime piano, upbeat cartoon music, silent film era"
 
 ---
 
-## Mickey Mouse (Steamboat Willie 1928)
+## William — Player Character (Mouse, Steamboat Pilot)
 
-### CRITICAL: Legal constraints
-- Black and white ONLY
-- NO gloves
-- NO red shorts
-- Pie-cut eyes (white circle with black wedge)
-- Long pointed snout
-- Thin limbs, large round ears
-- Simple clothing or no clothing
+### Visual Description
+Rubber hose style mouse. Round head, big round ears, pie-cut eyes, long snout.
+Captain's hat, striped vest, white gloves, big oval shoes. Noodle-like flexible
+limbs. Black body with cream/white face patch. Cheerful expression.
 
-### PixelLab Prompts
-
-**Idle animation:**
+### Midjourney Concept Art
 ```
-1928 Steamboat Willie Mickey Mouse, black and white, side view, standing idle,
-pie-cut eyes, long snout, no gloves, thin limbs, large round ears,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64,
-breathing idle animation, 4 frames
+/imagine 1930s rubber hose cartoon mouse character, steamboat captain,
+round head with big circular ears, pie-cut eyes, captain's hat,
+striped vest, white gloves, big oval shoes, noodle-like limbs,
+thick ink outlines, watercolor wash shading, vintage animation style,
+full character turnaround sheet, cream paper background
+--ar 1:1 --style raw --seed 42
 ```
 
-**Walk cycle:**
+### Animation Prompts (Stable Diffusion)
+
+**Idle (4 frames):**
 ```
-1928 Steamboat Willie Mickey Mouse, black and white, side view walk cycle,
-pie-cut eyes, long snout, no gloves, thin limbs, large shoes,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64,
-smooth walking animation, 8 frames
+1930s rubber hose cartoon mouse, captain's hat, striped vest,
+standing idle, gentle breathing animation, squash and stretch,
+thick ink outlines, watercolor wash, side view, 64x64 sprite,
+transparent background
 ```
 
-**Jump:**
+**Walk cycle (8 frames):**
 ```
-1928 Steamboat Willie Mickey Mouse, black and white, jumping pose,
-pie-cut eyes, long snout, no gloves, arms raised,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64,
-jump arc: launch, apex, falling, 3 frames
-```
-
-**Crouch:**
-```
-1928 Steamboat Willie Mickey Mouse, black and white, crouching low,
-pie-cut eyes, long snout, no gloves, squatting position,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64, 2 frames
+1930s rubber hose cartoon mouse, captain's hat, striped vest,
+walk cycle animation, bouncy rubber hose movement, noodle arms swinging,
+thick ink outlines, watercolor wash, side view, 64x64 sprite,
+transparent background
 ```
 
-**Crouch walk:**
+**Jump (3 frames):**
 ```
-1928 Steamboat Willie Mickey Mouse, black and white, crouching walk,
-sneaking low to ground, pie-cut eyes, long snout, no gloves,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64, 6 frames
-```
-
-**Collect item:**
-```
-1928 Steamboat Willie Mickey Mouse, black and white, reaching forward,
-picking up item, celebrating, pie-cut eyes, long snout, no gloves,
-vintage 1920s rubber hose cartoon style, pixel art, 64x64, 4 frames
+1930s rubber hose cartoon mouse, captain's hat, striped vest,
+jumping pose sequence: launch / apex / falling,
+stretch on launch, squash on land, arms up,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
 ```
 
-### Midjourney Style Reference Prompt
+**Crouch (2 frames):**
 ```
-/imagine 1928 Steamboat Willie style cartoon mouse character,
-black and white, rubber hose animation style, simple expressive pose,
-vintage silent film cartoon aesthetic --ar 1:1 --style raw --seed 42
+1930s rubber hose cartoon mouse, captain's hat, striped vest,
+crouching low, squashed down pose, big eyes looking up,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
+```
+
+**Collect item (4 frames):**
+```
+1930s rubber hose cartoon mouse, captain's hat, striped vest,
+reaching forward, picking up item, happy celebration pose,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
 ```
 
 ---
 
-## Winnie-the-Pooh (E.H. Shepard 1926)
+## Rosie — Companion 1 (Hen, Village Greeter)
 
-### CRITICAL: Legal constraints
-- NO red shirt (Disney trademark)
-- NO bright yellow coloring (Disney trademark)
-- Naturalistic bear proportions (Shepard's realistic style)
-- Pen-and-ink cross-hatching
-- Small, stocky bear
-- Warm sepia/brown tones allowed
+### Visual Description
+Plump rubber hose hen. Round body, small wings like noodle arms. Rose flower
+behind ear, apron, carries a small basket. Short legs with big shoes.
+Warm reddish-brown feathers. Friendly, bustling expression.
 
-### PixelLab Prompts
-
-**Idle animation:**
+### Midjourney Concept Art
 ```
-E.H. Shepard style Winnie the Pooh bear, pen and ink illustration,
-cross-hatched shading, naturalistic small stocky bear, no clothing,
-warm brown tones, children's book illustration style, pixel art, 64x64,
-gentle idle breathing animation, 4 frames
+/imagine 1930s rubber hose cartoon hen character, plump and round,
+rose flower behind ear, apron, carrying small basket,
+pie-cut eyes, white gloves, big shoes, noodle limbs,
+thick ink outlines, watercolor wash shading, vintage animation style,
+full character turnaround sheet, cream paper background
+--ar 1:1 --style raw --seed 42
 ```
 
-**Walk cycle:**
+### Animation Prompts
+
+**Idle (4 frames):**
 ```
-E.H. Shepard style bear, pen and ink illustration,
-cross-hatched shading, small stocky bear walking, no clothing,
-warm brown tones, storybook illustration style, pixel art, 64x64,
-walking animation side view, 8 frames
+1930s rubber hose cartoon hen, apron, rose behind ear, basket,
+standing idle, gentle bobbing animation, plump round body,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
 ```
 
-**Jump / Crouch / Collect — same pattern, adjust pose description**
-
-### Midjourney Style Reference Prompt
+**Walk cycle (8 frames):**
 ```
-/imagine E.H. Shepard pen and ink illustration style, small bear character,
-cross-hatched shading, vintage 1920s children's book illustration,
-warm sepia tones, detailed naturalistic style --ar 1:1 --style raw --seed 42
+1930s rubber hose cartoon hen, apron, rose behind ear,
+walk cycle, bustling waddle, wings swinging like noodle arms,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
 ```
 
 ---
 
-## Christopher Robin (E.H. Shepard 1926)
+## Barnaby — Companion 2 (Bull, Cook & Miller)
 
-### PixelLab Prompts
+### Visual Description
+Large, gentle rubber hose bull. Small horns, brass bell on neck,
+suspender overalls. Big barrel chest, tiny legs (classic rubber hose
+proportions). Slow, dopey but lovable expression. Brown/tan coloring.
 
-**Base prompt prefix:**
+### Midjourney Concept Art
 ```
-E.H. Shepard style young boy, pen and ink illustration,
-period 1920s clothing, knee-length shorts, button-up shirt,
-cross-hatched shading, children's book illustration style, pixel art, 64x64
+/imagine 1930s rubber hose cartoon bull character, large and gentle,
+small horns, brass bell on neck chain, suspender overalls,
+pie-cut eyes, white gloves, big shoes, barrel chest tiny legs,
+thick ink outlines, watercolor wash shading, vintage animation style,
+full character turnaround sheet, cream paper background
+--ar 1:1 --style raw --seed 42
+```
+
+### Animation Prompts
+
+**Idle (4 frames):**
+```
+1930s rubber hose cartoon bull, overalls, bell on neck,
+standing idle, gentle breathing, slow blink animation,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
+```
+
+**Walk cycle (8 frames):**
+```
+1930s rubber hose cartoon bull, overalls, bell on neck,
+walk cycle, heavy lumbering walk, bell swinging,
+thick ink outlines, watercolor wash, side view, 64x64 sprite
 ```
 
 ---
 
-## Piglet (E.H. Shepard 1926)
+## Pepper — Companion 3 (Cat, Mischievous Helper)
 
-### PixelLab Prompts
+### Visual Description
+Small, scrawny rubber hose alley cat. Huge round eyes, question-mark shaped
+tail, crooked bow tie. White chest patch. Twitchy, curious, always looking
+around. Black fur with expressive whiskers.
 
-**Base prompt prefix:**
+### Midjourney Concept Art
 ```
-E.H. Shepard style very small piglet character, pen and ink illustration,
-striped body, tiny and timid looking, cross-hatched shading,
-children's book illustration style, pixel art, 48x48
+/imagine 1930s rubber hose cartoon cat character, small and scrawny,
+huge round eyes, question mark shaped tail, crooked bow tie,
+white chest patch, twitchy and curious expression,
+pie-cut eyes, white gloves, big shoes, thin noodle limbs,
+thick ink outlines, watercolor wash shading, vintage animation style,
+full character turnaround sheet, cream paper background
+--ar 1:1 --style raw --seed 42
+```
+
+### Animation Prompts
+
+**Idle (4 frames):**
+```
+1930s rubber hose cartoon cat, bow tie, question mark tail,
+standing idle, twitchy nervous animation, looking around,
+thick ink outlines, watercolor wash, side view, 48x48 sprite
+```
+
+**Walk cycle (8 frames):**
+```
+1930s rubber hose cartoon cat, bow tie, question mark tail,
+walk cycle, sneaky tiptoeing, exaggerated cautious steps,
+thick ink outlines, watercolor wash, side view, 48x48 sprite
 ```
 
 ---
 
-## Environment Tiles
+## Captain Barnacle — NPC (Parrot, Narrator)
 
-### Forest Tileset
+### Visual Description
+Gruff rubber hose parrot. Tricorn hat, peg leg, eye patch. Sits on ship's
+wheel. Weathered feathers, one big round eye visible. Grumpy expression
+but warm underneath.
+
+### Midjourney Concept Art
 ```
-2D game tileset, pen and ink style forest, cross-hatched shading,
-ground tiles, grass, dirt path, tree trunks, branches, leaves,
-mushrooms, rocks, bushes, vintage children's book illustration,
+/imagine 1930s rubber hose cartoon parrot character, pirate narrator,
+tricorn hat, peg leg, eye patch, sitting on ship wheel,
+pie-cut eye, grumpy expression, weathered feathers,
+thick ink outlines, watercolor wash shading, vintage animation style,
+cream paper background
+--ar 1:1 --style raw --seed 42
+```
+
+---
+
+## Environment Tilesets
+
+### Stage 1: The Steamboat Dock
+```
+2D game tileset, 1930s cartoon style wooden dock and village,
+wooden planks, rope coils, barrel stacks, rope bridges,
+village rooftops, cobblestone path, lanterns, anchor,
+thick ink outlines, watercolor wash, vintage animation background,
 32x32 tile grid, transparent background
 ```
 
-### Village Tileset
+### Stage 2: The Meadow Mill
 ```
-2D game tileset, vintage storybook village, cobblestone path,
-wooden fences, cottage walls, lanterns, bridge stones,
-pen and ink illustration with warm tones, 32x32 tile grid
+2D game tileset, 1930s cartoon style countryside meadow,
+hay bale platforms, wooden fences, stone walls, windmill,
+wheat fields, clover patches, dirt path, wildflowers,
+thick ink outlines, watercolor wash, vintage animation background,
+32x32 tile grid, transparent background
+```
+
+### Stage 3: The Old Orchard
+```
+2D game tileset, 1930s cartoon style apple orchard on hill,
+twisted tree branches as platforms, vine swings, tree hollows,
+apple-laden trees, wooden ladders, baskets, fallen leaves,
+thick ink outlines, watercolor wash, vintage animation background,
+32x32 tile grid, transparent background
+```
+
+### Background Layers (Parallax)
+```
+1930s cartoon style background painting, rolling hills with village,
+steamboat on river, church steeple, chimneys with musical smoke,
+warm vintage palette, watercolor wash, soft edges,
+960x540 resolution, separated parallax layers:
+- far sky with clouds
+- distant hills with village silhouette
+- mid-ground trees and river
 ```
 
 ---
@@ -178,37 +284,47 @@ pen and ink illustration with warm tones, 32x32 tile grid
 
 ### Coins
 ```
-Spinning gold coin, simple pixel art, 16x16, 6 frame animation,
-shiny metallic, sparkle effect, transparent background
+1930s cartoon style gold coin, spinning animation, 6 frames,
+thick ink outline, watercolor gold shimmer, sparkle effect,
+16x16 sprite, transparent background
 ```
 
 ### Food Ingredients
+For each ingredient, use this base prompt and replace `[ITEM]`:
 ```
-Pixel art food item, [specific item name], simple cute style,
-16x16, transparent background, children's game style
-- honey pot: golden honey jar with dripping honey
-- bread: round loaf of bread
-- cheese: wedge of yellow cheese
-- flour: white flour sack
-- egg: brown egg
-- acorn: small brown acorn with cap
-- carrot: orange carrot with green top
-- mushroom: red and white spotted mushroom
+1930s cartoon style food item, [ITEM], cute and simple,
+thick ink outline, watercolor wash coloring,
+16x16 sprite, transparent background
 ```
+
+Items to generate:
+- `flour`: white flour sack with "FLOUR" label
+- `egg`: brown speckled egg
+- `butter`: yellow butter block on paper wrapper
+- `wheat`: golden wheat sheaf bundle
+- `carrot`: orange carrot with green leafy top
+- `mushroom`: brown and tan mushroom with spots
+- `apple`: red apple with small leaf
+- `sugar`: white sugar cube or sugar bag
+- `cinnamon`: brown cinnamon stick bundle
+- `bread`: round rustic bread loaf
 
 ---
 
 ## Workflow Checklist
 
-1. [ ] Generate Mickey reference in Midjourney (5-10 images for style lock)
-2. [ ] Generate Pooh reference in Midjourney using Shepard illustration refs
-3. [ ] Use PixelLab to create Mickey idle, walk, jump (core 3 first)
-4. [ ] Use PixelLab to create Pooh idle, walk, jump
-5. [ ] Clean up in Aseprite: align frames, fix artifacts, set timing
-6. [ ] Export from Aseprite as sprite sheet PNG + JSON
-7. [ ] Add remaining animations: crouch, crouch_walk, collect
-8. [ ] Generate Christopher Robin and Piglet sprites
-9. [ ] Generate item sprites (coins, food)
-10. [ ] Generate environment tilesets
-11. [ ] Generate background layers
-12. [ ] Replace placeholder files in assets/sprites/
+1. [ ] Generate William concept art in Midjourney (10+ images, select best)
+2. [ ] Lock style with `--sref` using best William image URL
+3. [ ] Generate Rosie, Barnaby, Pepper, Captain Barnacle concepts (same --sref)
+4. [ ] Train Stable Diffusion LoRA on selected concept images
+5. [ ] Generate William animation frames with ControlNet poses
+6. [ ] Generate companion animation frames (same LoRA + ControlNet)
+7. [ ] Clean up all frames in Procreate/Clip Studio Paint
+8. [ ] Export as individual PNG frames to `assets/sprites/characters/[name]/`
+9. [ ] Generate item sprites (coins, ingredients)
+10. [ ] Generate environment tilesets for all 3 stages
+11. [ ] Generate parallax background layers
+12. [ ] Generate ragtime BGM tracks with Suno AI
+13. [ ] Generate SFX with jsfxr (jump, coin, collect, menu)
+14. [ ] Replace all placeholder files in `assets/sprites/`
+15. [ ] Apply film grain shader and test visual cohesion

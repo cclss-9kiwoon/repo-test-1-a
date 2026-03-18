@@ -19,28 +19,29 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPRITES_DIR = os.path.join(BASE_DIR, "assets", "sprites")
 
 # Character definitions: name, color, size
+# 1930s rubber hose cartoon style — original characters
 CHARACTERS = {
-    "mickey": {"color": (40, 40, 40), "size": (64, 64), "label": "M"},
-    "pooh": {"color": (139, 90, 43), "size": (64, 64), "label": "P"},
-    "christopher_robin": {"color": (70, 100, 140), "size": (64, 64), "label": "CR"},
-    "piglet": {"color": (220, 150, 170), "size": (48, 48), "label": "Pi"},
+    "william": {"color": (26, 26, 26), "size": (64, 64), "label": "W"},
+    "rosie": {"color": (139, 58, 58), "size": (64, 64), "label": "R"},
+    "barnaby": {"color": (120, 80, 40), "size": (64, 64), "label": "B"},
+    "pepper": {"color": (50, 50, 55), "size": (48, 48), "label": "Pe"},
 }
 
 ANIMATIONS = ["idle", "walk", "jump", "fall", "crouch", "crouch_walk", "collect"]
 
 ITEM_SPRITES = {
     "coin": {"color": (255, 215, 0), "size": (16, 16)},
-    "bread": {"color": (210, 180, 120), "size": (16, 16)},
-    "cheese": {"color": (255, 220, 50), "size": (16, 16)},
-    "lettuce": {"color": (100, 200, 80), "size": (16, 16)},
-    "honey_pot": {"color": (220, 160, 30), "size": (16, 16)},
     "flour": {"color": (240, 240, 230), "size": (16, 16)},
     "egg": {"color": (245, 235, 200), "size": (16, 16)},
-    "acorn": {"color": (120, 80, 40), "size": (16, 16)},
+    "butter": {"color": (255, 230, 120), "size": (16, 16)},
+    "wheat": {"color": (210, 180, 80), "size": (16, 16)},
     "carrot": {"color": (255, 140, 30), "size": (16, 16)},
     "mushroom": {"color": (180, 130, 100), "size": (16, 16)},
+    "apple": {"color": (165, 42, 42), "size": (16, 16)},
+    "sugar": {"color": (250, 250, 250), "size": (16, 16)},
+    "cinnamon": {"color": (160, 82, 45), "size": (16, 16)},
+    "bread": {"color": (210, 180, 120), "size": (16, 16)},
     "water": {"color": (100, 150, 255), "size": (16, 16)},
-    "flower": {"color": (255, 100, 150), "size": (16, 16)},
 }
 
 
@@ -129,60 +130,116 @@ def main():
 
     print(f"  Created {len(ITEM_SPRITES)} item sprites")
 
-    # Generate a simple tileset placeholder (32x32 tiles in a 4x4 grid)
+    # Generate tileset placeholders for each stage environment
     env_dir = os.path.join(SPRITES_DIR, "environment")
     os.makedirs(env_dir, exist_ok=True)
 
     tile_size = 32
     tiles_per_row = 4
-    tileset = Image.new("RGBA", (tile_size * tiles_per_row, tile_size * tiles_per_row), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(tileset)
 
-    tile_colors = [
-        (80, 120, 50),   # grass
-        (100, 70, 40),   # dirt
-        (90, 90, 90),    # stone
-        (60, 100, 45),   # dark grass
-        (120, 80, 40),   # wood
-        (70, 130, 60),   # leaves
-        (50, 50, 50),    # rock
-        (140, 100, 50),  # sand
-        (80, 80, 80),    # cobblestone
-        (100, 60, 30),   # log
-        (60, 60, 60),    # dark rock
-        (110, 140, 60),  # moss
-        (90, 150, 200),  # water surface
-        (70, 120, 180),  # deep water
-        (150, 100, 50),  # fence
-        (130, 90, 40),   # planks
-    ]
+    # Stage tilesets: dock, meadow, orchard
+    stage_tilesets = {
+        "dock_tileset": [
+            (120, 80, 40),   # wood planks
+            (100, 70, 35),   # dark wood
+            (90, 90, 90),    # stone
+            (80, 80, 80),    # cobblestone
+            (140, 100, 50),  # rope/hemp
+            (60, 100, 45),   # dock moss
+            (90, 150, 200),  # water surface
+            (70, 120, 180),  # deep water
+            (150, 100, 50),  # barrel
+            (130, 90, 40),   # crate
+            (50, 50, 50),    # anchor metal
+            (110, 80, 35),   # dock post
+            (160, 120, 60),  # lantern
+            (100, 60, 30),   # timber
+            (80, 120, 50),   # grass patch
+            (140, 110, 50),  # sand
+        ],
+        "meadow_tileset": [
+            (80, 120, 50),   # grass
+            (100, 70, 40),   # dirt
+            (60, 100, 45),   # dark grass
+            (110, 140, 60),  # moss
+            (140, 100, 50),  # fence post
+            (130, 90, 40),   # fence rail
+            (150, 100, 50),  # hay
+            (210, 180, 80),  # wheat
+            (90, 90, 90),    # stone wall
+            (120, 80, 40),   # wood
+            (70, 130, 60),   # clover
+            (100, 60, 30),   # log
+            (180, 140, 60),  # windmill wood
+            (160, 160, 160), # windmill blade
+            (50, 50, 50),    # dark rock
+            (140, 110, 50),  # path
+        ],
+        "orchard_tileset": [
+            (80, 120, 50),   # grass
+            (120, 80, 40),   # tree trunk
+            (70, 130, 60),   # leaves
+            (165, 42, 42),   # apple
+            (100, 70, 40),   # branch
+            (60, 100, 45),   # dark leaves
+            (110, 140, 60),  # vine
+            (90, 60, 30),    # bark
+            (50, 50, 50),    # tree hollow
+            (140, 100, 50),  # wooden platform
+            (130, 90, 40),   # ladder
+            (100, 60, 30),   # root
+            (80, 80, 80),    # stone
+            (160, 120, 60),  # basket
+            (60, 60, 60),    # dark hole
+            (150, 100, 50),  # fence
+        ],
+    }
 
-    for i, color in enumerate(tile_colors):
-        x = (i % tiles_per_row) * tile_size
-        y = (i // tiles_per_row) * tile_size
-        draw.rectangle([x + 1, y + 1, x + tile_size - 1, y + tile_size - 1], fill=color, outline=(40, 40, 40))
+    for tileset_name, tile_colors in stage_tilesets.items():
+        tileset = Image.new("RGBA", (tile_size * tiles_per_row, tile_size * tiles_per_row), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(tileset)
+        for i, color in enumerate(tile_colors):
+            x = (i % tiles_per_row) * tile_size
+            y = (i // tiles_per_row) * tile_size
+            draw.rectangle([x + 1, y + 1, x + tile_size - 1, y + tile_size - 1], fill=color, outline=(40, 40, 40))
+        tileset.save(os.path.join(env_dir, f"{tileset_name}.png"))
 
-    tileset.save(os.path.join(env_dir, "forest_tileset.png"))
-    tileset.save(os.path.join(env_dir, "village_tileset.png"))
-    print("  Created tileset placeholders")
+    print("  Created tileset placeholders (dock, meadow, orchard)")
 
-    # Generate simple background
+    # Generate simple background with vintage sepia tone
     bg_dir = os.path.join(SPRITES_DIR, "backgrounds")
     os.makedirs(bg_dir, exist_ok=True)
 
-    bg = Image.new("RGB", (960, 540), (135, 180, 220))
+    bg = Image.new("RGB", (960, 540), (155, 181, 197))
     draw = ImageDraw.Draw(bg)
-    # Simple gradient sky
+    # Vintage sky gradient
     for y_pos in range(540):
-        r = int(135 + (y_pos / 540) * 40)
-        g = int(180 + (y_pos / 540) * 30)
-        b = int(220 - (y_pos / 540) * 60)
+        r = int(155 + (y_pos / 540) * 90)
+        g = int(181 + (y_pos / 540) * 50)
+        b = int(197 - (y_pos / 540) * 80)
         draw.line([(0, y_pos), (960, y_pos)], fill=(r, g, b))
     bg.save(os.path.join(bg_dir, "sky.png"))
     print("  Created background placeholder")
 
+    # Remove old item sprites that no longer exist
+    old_items = ["honey_pot.png", "lettuce.png", "acorn.png", "flower.png", "cheese.png"]
+    items_dir_path = os.path.join(SPRITES_DIR, "items")
+    for old_item in old_items:
+        old_path = os.path.join(items_dir_path, old_item)
+        if os.path.exists(old_path):
+            os.remove(old_path)
+            print(f"  Removed old item sprite: {old_item}")
+
+    # Remove old tilesets
+    old_tilesets = ["forest_tileset.png", "village_tileset.png"]
+    for old_ts in old_tilesets:
+        old_path = os.path.join(env_dir, old_ts)
+        if os.path.exists(old_path):
+            os.remove(old_path)
+            print(f"  Removed old tileset: {old_ts}")
+
     print("\nDone! Placeholder sprites generated in assets/sprites/")
-    print("Replace these with real art from PixelLab/Midjourney + Aseprite cleanup.")
+    print("Replace these with real art from Midjourney + Procreate/Clip Studio Paint cleanup.")
 
 
 if __name__ == "__main__":

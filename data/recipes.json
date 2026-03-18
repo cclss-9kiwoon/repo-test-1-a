@@ -1,38 +1,39 @@
 {
 	"recipes": [
 		{
-			"name": "Welcome Sandwiches",
-			"display_name": "환영 샌드위치",
+			"name": "Welcome Biscuits",
+			"display_name": "환영 비스킷",
 			"stage": 1,
 			"ingredients": [
-				{"name": "bread", "display_name": "빵", "count": 3},
-				{"name": "cheese", "display_name": "치즈", "count": 2},
-				{"name": "lettuce", "display_name": "상추", "count": 1}
+				{"name": "flour", "display_name": "밀가루", "count": 3},
+				{"name": "egg", "display_name": "달걀", "count": 2},
+				{"name": "butter", "display_name": "버터", "count": 1}
 			],
-			"description": "A warm welcome feast for new friends."
+			"description": "Warm, flaky biscuits to welcome new friends to Toot-Toot Village."
 		},
 		{
-			"name": "Honey Cakes",
-			"display_name": "꿀 케이크",
+			"name": "Barnaby's Meadow Pie",
+			"display_name": "바나비의 초원 파이",
 			"stage": 2,
 			"ingredients": [
-				{"name": "honey_pot", "display_name": "꿀단지", "count": 3},
-				{"name": "flour", "display_name": "밀가루", "count": 2},
-				{"name": "egg", "display_name": "달걀", "count": 1}
-			],
-			"description": "Pooh's favorite treat - made with the finest honey."
-		},
-		{
-			"name": "Acorn Stew",
-			"display_name": "도토리 스튜",
-			"stage": 3,
-			"ingredients": [
-				{"name": "acorn", "display_name": "도토리", "count": 4},
+				{"name": "wheat", "display_name": "밀", "count": 3},
 				{"name": "carrot", "display_name": "당근", "count": 2},
 				{"name": "mushroom", "display_name": "버섯", "count": 1},
-				{"name": "water", "display_name": "물", "count": 1}
+				{"name": "egg", "display_name": "달걀", "count": 1}
 			],
-			"description": "A hearty forest stew to celebrate at the grand party."
+			"description": "Barnaby's famous pie -- the pride of the meadow mill."
+		},
+		{
+			"name": "Pepper's Apple Crumble",
+			"display_name": "페퍼의 사과 크럼블",
+			"stage": 3,
+			"ingredients": [
+				{"name": "apple", "display_name": "사과", "count": 4},
+				{"name": "sugar", "display_name": "설탕", "count": 2},
+				{"name": "cinnamon", "display_name": "시나몬", "count": 1},
+				{"name": "butter", "display_name": "버터", "count": 1}
+			],
+			"description": "A sweet crumble made with the finest orchard apples for the Grand Feast."
 		}
 	]
 }

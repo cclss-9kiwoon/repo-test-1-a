@@ -10,35 +10,35 @@ signal companion_joined(character_name: String)
 # --- Game State ---
 var coins: int = 0
 var current_stage: int = 1
-var companions_unlocked: Array[String] = ["mickey"]
-var collected_ingredients: Dictionary = {}  # {"honey": 2, "flour": 1, ...}
+var companions_unlocked: Array[String] = ["william"]
+var collected_ingredients: Dictionary = {}  # {"flour": 2, "egg": 1, ...}
 var recipes_completed: Array[String] = []
 var stages_completed: Array[int] = []
 
 # --- Stage Recipes ---
 var stage_recipes: Dictionary = {
 	1: {
-		"name": "Welcome Sandwiches",
-		"display_name": "환영 샌드위치",
-		"ingredients": {"bread": 3, "cheese": 2, "lettuce": 1}
+		"name": "Welcome Biscuits",
+		"display_name": "환영 비스킷",
+		"ingredients": {"flour": 3, "egg": 2, "butter": 1}
 	},
 	2: {
-		"name": "Honey Cakes",
-		"display_name": "꿀 케이크",
-		"ingredients": {"honey_pot": 3, "flour": 2, "egg": 1}
+		"name": "Barnaby's Meadow Pie",
+		"display_name": "바나비의 초원 파이",
+		"ingredients": {"wheat": 3, "carrot": 2, "mushroom": 1, "egg": 1}
 	},
 	3: {
-		"name": "Acorn Stew",
-		"display_name": "도토리 스튜",
-		"ingredients": {"acorn": 4, "carrot": 2, "mushroom": 1, "water": 1}
+		"name": "Pepper's Apple Crumble",
+		"display_name": "페퍼의 사과 크럼블",
+		"ingredients": {"apple": 4, "sugar": 2, "cinnamon": 1, "butter": 1}
 	}
 }
 
 # --- Stage Companions ---
 var stage_companions: Dictionary = {
-	1: ["christopher_robin"],
-	2: ["pooh"],
-	3: ["piglet"]
+	1: ["rosie"],
+	2: ["barnaby"],
+	3: ["pepper"]
 }
 
 
@@ -149,7 +149,7 @@ func load_game() -> bool:
 	var data = json.data
 	coins = data.get("coins", 0)
 	current_stage = data.get("current_stage", 1)
-	companions_unlocked = Array(data.get("companions_unlocked", ["mickey"]), TYPE_STRING, "", null)
+	companions_unlocked = Array(data.get("companions_unlocked", ["william"]), TYPE_STRING, "", null)
 	recipes_completed = Array(data.get("recipes_completed", []), TYPE_STRING, "", null)
 	stages_completed = Array(data.get("stages_completed", []), TYPE_INT, "", null)
 	return true

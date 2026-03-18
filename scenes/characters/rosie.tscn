@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/companion_controller.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rosie"]
+size = Vector2(32, 40)
+
+[node name="Rosie" type="CharacterBody2D"]
+script = ExtResource("1")
+character_name = "rosie"
+display_name = "Rosie"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rosie")

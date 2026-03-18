@@ -1,6 +1,6 @@
 class_name PlayerController
 extends CharacterBody2D
-## Mickey's player-controlled movement with state machine.
+## William's player-controlled movement with state machine.
 
 signal state_changed(new_state: String)
 

@@ -17,17 +17,17 @@ var active_companions_in_stage: Array[CompanionController] = []
 
 # Companion data for dialogue
 var companion_dialogues: Dictionary = {
-	"christopher_robin": {
-		"display_name": "Christopher Robin",
-		"lines": ["Hello! Are you heading to the forest?", "I know someone who would love to meet you!", "Let me come along!"]
+	"rosie": {
+		"display_name": "Rosie",
+		"lines": ["Welcome, welcome! You must be the steamboat pilot!", "The village is preparing a Grand Feast -- and we need help!", "Come along, I know just where to start!"]
 	},
-	"pooh": {
-		"display_name": "Pooh",
-		"lines": ["Oh bother. I was just having a small smackerel of honey.", "Would you like some?", "I'll come with you!"]
+	"barnaby": {
+		"display_name": "Barnaby",
+		"lines": ["Well now... that sure is a fine lookin' steamboat.", "You say there's gonna be a feast? ...With cookin'?", "I reckon I better come along and make sure you do it right!"]
 	},
-	"piglet": {
-		"display_name": "Piglet",
-		"lines": ["Oh d-d-dear...", "You're going through the deep forest?", "I suppose I could be brave and join you..."]
+	"pepper": {
+		"display_name": "Pepper",
+		"lines": ["Psst! Hey, hey, you! Up here!", "I know where the BEST apples are -- follow me!", "Just... don't tell anyone about that thing I knocked over."]
 	}
 }
 
@@ -42,9 +42,9 @@ func _ready() -> void:
 
 
 func _restore_existing_companions() -> void:
-	# Add companions unlocked in previous stages (except mickey, who is the player)
+	# Add companions unlocked in previous stages (except william, who is the player)
 	for companion_name in GameManager.companions_unlocked:
-		if companion_name == "mickey":
+		if companion_name == "william":
 			continue
 		# Check if this companion should already be in the chain
 		# (unlocked in a previous stage, not this stage)

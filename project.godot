@@ -4,8 +4,8 @@
 
 [application]
 
-config/name="A Hundred Acre Voyage"
-config/description="A family-friendly 2D platformer featuring public domain characters from Steamboat Willie and Winnie-the-Pooh"
+config/name="Steamboat Village Adventure"
+config/description="A family-friendly 2D platformer featuring original characters in the 1930s rubber hose cartoon style"
 run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 

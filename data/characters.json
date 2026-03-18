@@ -1,16 +1,19 @@
 {
-	"mickey": {
-		"display_name": "Mickey",
+	"william": {
+		"display_name": "William",
 		"type": "player",
-		"source": "Steamboat Willie (1928)",
-		"art_style": "1928 black and white cartoon",
+		"source": "Original character",
+		"art_style": "1930s rubber hose cartoon, Cuphead-inspired",
 		"visual_constraints": [
-			"Black and white only",
-			"No gloves",
-			"No red shorts",
-			"Pie-cut eyes",
-			"Long pointed snout",
-			"Thin limbs"
+			"Rubber hose style mouse",
+			"Round head with large circular ears",
+			"Captain's cap tilted at jaunty angle",
+			"Striped sailor vest",
+			"White gloves with three line marks",
+			"Large oval shoes",
+			"Noodle-like boneless limbs",
+			"Thick ink outlines with taper",
+			"Desaturated sepia tones"
 		],
 		"sprite_size": [64, 64],
 		"collision_size": [32, 48],
@@ -24,42 +27,23 @@
 			"collect": {"frames": 4, "fps": 8, "loop": false}
 		}
 	},
-	"pooh": {
-		"display_name": "Pooh",
+	"rosie": {
+		"display_name": "Rosie",
 		"type": "companion",
-		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
-		"art_style": "E.H. Shepard pen-and-ink illustration",
+		"source": "Original character",
+		"art_style": "1930s rubber hose cartoon, Cuphead-inspired",
 		"visual_constraints": [
-			"No red shirt",
-			"No yellow coloring",
-			"Naturalistic bear proportions",
-			"Cross-hatched pen strokes",
-			"Small stocky bear"
+			"Plump motherly hen",
+			"Flower (rose) tucked behind one ear",
+			"Ruffled apron",
+			"Small basket",
+			"Short legs with oversized shoes",
+			"Round body with small expressive wings",
+			"Cross-hatched feather texture",
+			"Thick ink outlines"
 		],
 		"sprite_size": [64, 64],
 		"collision_size": [32, 40],
-		"introduction_stage": 2,
-		"animations": {
-			"idle": {"frames": 4, "fps": 4, "loop": true},
-			"walk": {"frames": 8, "fps": 12, "loop": true},
-			"jump": {"frames": 3, "fps": 8, "loop": false},
-			"fall": {"frames": 1, "fps": 1, "loop": false},
-			"crouch": {"frames": 2, "fps": 4, "loop": false},
-			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
-			"collect": {"frames": 4, "fps": 8, "loop": false}
-		}
-	},
-	"christopher_robin": {
-		"display_name": "Christopher Robin",
-		"type": "companion",
-		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
-		"art_style": "E.H. Shepard pen-and-ink illustration",
-		"visual_constraints": [
-			"Young boy in period clothing",
-			"Shepard illustration style"
-		],
-		"sprite_size": [64, 64],
-		"collision_size": [28, 52],
 		"introduction_stage": 1,
 		"animations": {
 			"idle": {"frames": 4, "fps": 4, "loop": true},
@@ -71,15 +55,47 @@
 			"collect": {"frames": 4, "fps": 8, "loop": false}
 		}
 	},
-	"piglet": {
-		"display_name": "Piglet",
+	"barnaby": {
+		"display_name": "Barnaby",
 		"type": "companion",
-		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
-		"art_style": "E.H. Shepard pen-and-ink illustration",
+		"source": "Original character",
+		"art_style": "1930s rubber hose cartoon, Cuphead-inspired",
 		"visual_constraints": [
-			"Very small body",
-			"Striped body",
-			"Shepard illustration style"
+			"Large gentle bull",
+			"Small horns",
+			"Brass bell around neck",
+			"Suspender overalls",
+			"Barrel chest with tiny legs",
+			"Perpetually sleepy expression",
+			"Thick ink outlines"
+		],
+		"sprite_size": [64, 64],
+		"collision_size": [36, 44],
+		"introduction_stage": 2,
+		"animations": {
+			"idle": {"frames": 4, "fps": 4, "loop": true},
+			"walk": {"frames": 8, "fps": 12, "loop": true},
+			"jump": {"frames": 3, "fps": 8, "loop": false},
+			"fall": {"frames": 1, "fps": 1, "loop": false},
+			"crouch": {"frames": 2, "fps": 4, "loop": false},
+			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
+			"collect": {"frames": 4, "fps": 8, "loop": false}
+		}
+	},
+	"pepper": {
+		"display_name": "Pepper",
+		"type": "companion",
+		"source": "Original character",
+		"art_style": "1930s rubber hose cartoon, Cuphead-inspired",
+		"visual_constraints": [
+			"Small scrawny alley cat",
+			"Enormous eyes",
+			"Crooked question-mark tail",
+			"Oversized crooked bow tie",
+			"Black fur with white chest patch",
+			"Very thin noodle limbs",
+			"Wide toothy grin",
+			"Thick ink outlines"
 		],
 		"sprite_size": [48, 48],
 		"collision_size": [20, 32],

@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.15, 0.2, 0.15, 1)
+color = Color(0.96, 0.90, 0.78, 1)
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 1
@@ -30,7 +30,7 @@ offset_top = 150.0
 offset_right = 300.0
 offset_bottom = 250.0
 grow_horizontal = 2
-text = "A Hundred Acre Voyage"
+text = "Steamboat Village Adventure"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -44,7 +44,7 @@ offset_top = 260.0
 offset_right = 300.0
 offset_bottom = 300.0
 grow_horizontal = 2
-text = "This game is not affiliated with The Walt Disney Company."
+text = "An original game inspired by 1930s cartoon art."
 horizontal_alignment = 1
 vertical_alignment = 1
 
