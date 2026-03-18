@@ -1,0 +1,689 @@
+[gd_scene load_steps=38 format=3]
+
+[ext_resource type="Script" path="res://scripts/stages/stage_base.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/characters/william.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ui/stage_complete.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/stages/companion_meet_point.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/stages/stage_exit.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/stages/kill_zone.gd" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/collectibles/coin.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/collectibles/ingredient.tscn" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/apple.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/sugar.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/cinnamon.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/butter.png" id="15"]
+
+[sub_resource type="RectangleShape2D" id="plat_1_shape"]
+size = Vector2(1200, 64)
+
+[sub_resource type="RectangleShape2D" id="plat_2_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_3_shape"]
+size = Vector2(300, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_4_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_5_shape"]
+size = Vector2(200, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_6_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_7_shape"]
+size = Vector2(400, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_8_shape"]
+size = Vector2(200, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_9_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_10_shape"]
+size = Vector2(300, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_11_shape"]
+size = Vector2(200, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_12_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_13_shape"]
+size = Vector2(200, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_14_shape"]
+size = Vector2(300, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_15_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_16_shape"]
+size = Vector2(200, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_17_shape"]
+size = Vector2(300, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_18_shape"]
+size = Vector2(350, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_19_shape"]
+size = Vector2(250, 32)
+
+[sub_resource type="RectangleShape2D" id="plat_20_shape"]
+size = Vector2(1200, 64)
+
+[sub_resource type="CircleShape2D" id="companion_meet_shape"]
+radius = 60.0
+
+[sub_resource type="RectangleShape2D" id="stage_exit_shape"]
+size = Vector2(100, 200)
+
+[sub_resource type="RectangleShape2D" id="kill_zone_shape"]
+size = Vector2(8200, 100)
+
+[node name="Stage3" type="Node2D"]
+script = ExtResource("1")
+stage_number = 3
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 8000.0
+offset_bottom = 1600.0
+color = Color(0.96, 0.9, 0.78, 1)
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(200, 1300)
+
+[node name="Camera2D" parent="Player" index="2"]
+limit_left = 0
+limit_top = 0
+limit_right = 8000
+limit_bottom = 1600
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3")
+
+[node name="CoinContainer" type="HBoxContainer" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 60.0
+
+[node name="CoinLabel" type="Label" parent="HUD/CoinContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="IngredientContainer" type="VBoxContainer" parent="HUD"]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 120.0
+offset_bottom = 200.0
+
+[node name="DialogueBox" type="CanvasLayer" parent="."]
+script = ExtResource("4")
+
+[node name="PanelContainer" type="PanelContainer" parent="DialogueBox"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -150.0
+offset_right = -100.0
+offset_bottom = -20.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBox/PanelContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="DialogueBox/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextLabel" type="Label" parent="DialogueBox/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StageCompleteScreen" type="CanvasLayer" parent="."]
+script = ExtResource("5")
+
+[node name="PanelContainer" type="PanelContainer" parent="StageCompleteScreen"]
+anchor_left = 0.3
+anchor_top = 0.3
+anchor_right = 0.7
+anchor_bottom = 0.7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StageCompleteScreen/PanelContainer"]
+layout_mode = 2
+
+[node name="RecipeLabel" type="Label" parent="StageCompleteScreen/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CoinLabel" type="Label" parent="StageCompleteScreen/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="StageCompleteScreen/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("6")
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu"]
+anchor_left = 0.3
+anchor_top = 0.3
+anchor_right = 0.7
+anchor_bottom = 0.7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/PanelContainer"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="MenuButton" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="Platform1" type="StaticBody2D" parent="Platforms"]
+position = Vector2(600, 1450)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform1"]
+offset_left = -600.0
+offset_top = -32.0
+offset_right = 600.0
+offset_bottom = 32.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform1"]
+shape = SubResource("plat_1_shape")
+
+[node name="Platform2" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1400, 1350)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform2"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform2"]
+shape = SubResource("plat_2_shape")
+
+[node name="Platform3" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1700, 1250)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform3"]
+offset_left = -150.0
+offset_top = -16.0
+offset_right = 150.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform3"]
+shape = SubResource("plat_3_shape")
+
+[node name="Platform4" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2000, 1150)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform4"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform4"]
+shape = SubResource("plat_4_shape")
+
+[node name="Platform5" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2300, 1050)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform5"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform5"]
+shape = SubResource("plat_5_shape")
+
+[node name="Platform6" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2600, 950)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform6"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform6"]
+shape = SubResource("plat_6_shape")
+
+[node name="Platform7" type="StaticBody2D" parent="Platforms"]
+position = Vector2(3000, 850)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform7"]
+offset_left = -200.0
+offset_top = -16.0
+offset_right = 200.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform7"]
+shape = SubResource("plat_7_shape")
+
+[node name="Platform8" type="StaticBody2D" parent="Platforms"]
+position = Vector2(3400, 750)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform8"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform8"]
+shape = SubResource("plat_8_shape")
+
+[node name="Platform9" type="StaticBody2D" parent="Platforms"]
+position = Vector2(3700, 850)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform9"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform9"]
+shape = SubResource("plat_9_shape")
+
+[node name="Platform10" type="StaticBody2D" parent="Platforms"]
+position = Vector2(4000, 950)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform10"]
+offset_left = -150.0
+offset_top = -16.0
+offset_right = 150.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform10"]
+shape = SubResource("plat_10_shape")
+
+[node name="Platform11" type="StaticBody2D" parent="Platforms"]
+position = Vector2(4300, 1050)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform11"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform11"]
+shape = SubResource("plat_11_shape")
+
+[node name="Platform12" type="StaticBody2D" parent="Platforms"]
+position = Vector2(4600, 950)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform12"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform12"]
+shape = SubResource("plat_12_shape")
+
+[node name="Platform13" type="StaticBody2D" parent="Platforms"]
+position = Vector2(4900, 850)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform13"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform13"]
+shape = SubResource("plat_13_shape")
+
+[node name="Platform14" type="StaticBody2D" parent="Platforms"]
+position = Vector2(5200, 750)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform14"]
+offset_left = -150.0
+offset_top = -16.0
+offset_right = 150.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform14"]
+shape = SubResource("plat_14_shape")
+
+[node name="Platform15" type="StaticBody2D" parent="Platforms"]
+position = Vector2(5500, 850)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform15"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform15"]
+shape = SubResource("plat_15_shape")
+
+[node name="Platform16" type="StaticBody2D" parent="Platforms"]
+position = Vector2(5800, 950)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform16"]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform16"]
+shape = SubResource("plat_16_shape")
+
+[node name="Platform17" type="StaticBody2D" parent="Platforms"]
+position = Vector2(6100, 1050)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform17"]
+offset_left = -150.0
+offset_top = -16.0
+offset_right = 150.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform17"]
+shape = SubResource("plat_17_shape")
+
+[node name="Platform18" type="StaticBody2D" parent="Platforms"]
+position = Vector2(6400, 1150)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform18"]
+offset_left = -175.0
+offset_top = -16.0
+offset_right = 175.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform18"]
+shape = SubResource("plat_18_shape")
+
+[node name="Platform19" type="StaticBody2D" parent="Platforms"]
+position = Vector2(6800, 1250)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform19"]
+offset_left = -125.0
+offset_top = -16.0
+offset_right = 125.0
+offset_bottom = 16.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform19"]
+shape = SubResource("plat_19_shape")
+
+[node name="Platform20" type="StaticBody2D" parent="Platforms"]
+position = Vector2(7500, 1450)
+collision_layer = 4
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Platforms/Platform20"]
+offset_left = -600.0
+offset_top = -32.0
+offset_right = 600.0
+offset_bottom = 32.0
+color = Color(0.24, 0.39, 0.18, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform20"]
+shape = SubResource("plat_20_shape")
+
+[node name="Coins" type="Node2D" parent="."]
+
+[node name="Coin1" parent="Coins" instance=ExtResource("10")]
+position = Vector2(300, 1390)
+
+[node name="Coin2" parent="Coins" instance=ExtResource("10")]
+position = Vector2(500, 1390)
+
+[node name="Coin3" parent="Coins" instance=ExtResource("10")]
+position = Vector2(700, 1390)
+
+[node name="Coin4" parent="Coins" instance=ExtResource("10")]
+position = Vector2(900, 1390)
+
+[node name="Coin5" parent="Coins" instance=ExtResource("10")]
+position = Vector2(1400, 1290)
+
+[node name="Coin6" parent="Coins" instance=ExtResource("10")]
+position = Vector2(1700, 1190)
+
+[node name="Coin7" parent="Coins" instance=ExtResource("10")]
+position = Vector2(1900, 1190)
+
+[node name="Coin8" parent="Coins" instance=ExtResource("10")]
+position = Vector2(2000, 1090)
+
+[node name="Coin9" parent="Coins" instance=ExtResource("10")]
+position = Vector2(2300, 990)
+
+[node name="Coin10" parent="Coins" instance=ExtResource("10")]
+position = Vector2(2600, 890)
+
+[node name="Coin11" parent="Coins" instance=ExtResource("10")]
+position = Vector2(2800, 890)
+
+[node name="Coin12" parent="Coins" instance=ExtResource("10")]
+position = Vector2(3000, 790)
+
+[node name="Coin13" parent="Coins" instance=ExtResource("10")]
+position = Vector2(3200, 790)
+
+[node name="Coin14" parent="Coins" instance=ExtResource("10")]
+position = Vector2(3400, 690)
+
+[node name="Coin15" parent="Coins" instance=ExtResource("10")]
+position = Vector2(3700, 790)
+
+[node name="Coin16" parent="Coins" instance=ExtResource("10")]
+position = Vector2(3900, 790)
+
+[node name="Coin17" parent="Coins" instance=ExtResource("10")]
+position = Vector2(4000, 890)
+
+[node name="Coin18" parent="Coins" instance=ExtResource("10")]
+position = Vector2(4300, 990)
+
+[node name="Coin19" parent="Coins" instance=ExtResource("10")]
+position = Vector2(4600, 890)
+
+[node name="Coin20" parent="Coins" instance=ExtResource("10")]
+position = Vector2(4900, 790)
+
+[node name="Coin21" parent="Coins" instance=ExtResource("10")]
+position = Vector2(5100, 790)
+
+[node name="Coin22" parent="Coins" instance=ExtResource("10")]
+position = Vector2(5200, 690)
+
+[node name="Coin23" parent="Coins" instance=ExtResource("10")]
+position = Vector2(5500, 790)
+
+[node name="Coin24" parent="Coins" instance=ExtResource("10")]
+position = Vector2(5800, 890)
+
+[node name="Coin25" parent="Coins" instance=ExtResource("10")]
+position = Vector2(6100, 990)
+
+[node name="Coin26" parent="Coins" instance=ExtResource("10")]
+position = Vector2(6300, 990)
+
+[node name="Coin27" parent="Coins" instance=ExtResource("10")]
+position = Vector2(6400, 1090)
+
+[node name="Coin28" parent="Coins" instance=ExtResource("10")]
+position = Vector2(6800, 1190)
+
+[node name="Coin29" parent="Coins" instance=ExtResource("10")]
+position = Vector2(7300, 1390)
+
+[node name="Coin30" parent="Coins" instance=ExtResource("10")]
+position = Vector2(7500, 1390)
+
+[node name="Ingredients" type="Node2D" parent="."]
+
+[node name="Apple1" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(2000, 1090)
+ingredient_name = "apple"
+display_name = "Apple"
+
+[node name="Sprite2D" parent="Ingredients/Apple1" index="0"]
+texture = ExtResource("12")
+
+[node name="Apple2" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(3400, 690)
+ingredient_name = "apple"
+display_name = "Apple"
+
+[node name="Sprite2D" parent="Ingredients/Apple2" index="0"]
+texture = ExtResource("12")
+
+[node name="Apple3" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(4900, 790)
+ingredient_name = "apple"
+display_name = "Apple"
+
+[node name="Sprite2D" parent="Ingredients/Apple3" index="0"]
+texture = ExtResource("12")
+
+[node name="Apple4" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(5200, 690)
+ingredient_name = "apple"
+display_name = "Apple"
+
+[node name="Sprite2D" parent="Ingredients/Apple4" index="0"]
+texture = ExtResource("12")
+
+[node name="Sugar1" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(3000, 790)
+ingredient_name = "sugar"
+display_name = "Sugar"
+
+[node name="Sprite2D" parent="Ingredients/Sugar1" index="0"]
+texture = ExtResource("13")
+
+[node name="Sugar2" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(6100, 990)
+ingredient_name = "sugar"
+display_name = "Sugar"
+
+[node name="Sprite2D" parent="Ingredients/Sugar2" index="0"]
+texture = ExtResource("13")
+
+[node name="Cinnamon1" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(4600, 890)
+ingredient_name = "cinnamon"
+display_name = "Cinnamon"
+
+[node name="Sprite2D" parent="Ingredients/Cinnamon1" index="0"]
+texture = ExtResource("14")
+
+[node name="Butter1" parent="Ingredients" instance=ExtResource("11")]
+position = Vector2(6400, 1090)
+ingredient_name = "butter"
+display_name = "Butter"
+
+[node name="Sprite2D" parent="Ingredients/Butter1" index="0"]
+texture = ExtResource("15")
+
+[node name="CompanionMeetPoint" type="Area2D" parent="."]
+position = Vector2(3000, 800)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("7")
+companion_name = "pepper"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CompanionMeetPoint"]
+shape = SubResource("companion_meet_shape")
+
+[node name="StageExit" type="Area2D" parent="."]
+position = Vector2(7800, 1400)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StageExit"]
+shape = SubResource("stage_exit_shape")
+
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(4000, 1700)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("9")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+shape = SubResource("kill_zone_shape")
+
+[editable path="Ingredients/Apple1"]
+[editable path="Ingredients/Apple2"]
+[editable path="Ingredients/Apple3"]
+[editable path="Ingredients/Apple4"]
+[editable path="Ingredients/Sugar1"]
+[editable path="Ingredients/Sugar2"]
+[editable path="Ingredients/Cinnamon1"]
+[editable path="Ingredients/Butter1"]

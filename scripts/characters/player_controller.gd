@@ -27,6 +27,7 @@ var was_on_floor: bool = false
 var coyote_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
 var facing_right: bool = true
+var spawn_position: Vector2 = Vector2.ZERO
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -35,11 +36,17 @@ var facing_right: bool = true
 
 
 func _ready() -> void:
+	spawn_position = global_position
 	# Create default collision shape if resources don't exist
 	if collision_shape and not collision_shape.shape:
 		var shape = RectangleShape2D.new()
 		shape.size = Vector2(32, 48)
 		collision_shape.shape = shape
+
+
+func respawn() -> void:
+	global_position = spawn_position
+	velocity = Vector2.ZERO
 
 
 func _physics_process(delta: float) -> void:

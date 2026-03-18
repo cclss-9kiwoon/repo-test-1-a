@@ -1,16 +1,20 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/companion_controller.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://resources/sprite_frames/barnaby_frames.tres" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_barnaby"]
 size = Vector2(36, 44)
 
 [node name="Barnaby" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1")
 character_name = "barnaby"
 display_name = "Barnaby"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_barnaby")
