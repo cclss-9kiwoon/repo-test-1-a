@@ -1,0 +1,38 @@
+{
+	"recipes": [
+		{
+			"name": "Welcome Sandwiches",
+			"display_name": "환영 샌드위치",
+			"stage": 1,
+			"ingredients": [
+				{"name": "bread", "display_name": "빵", "count": 3},
+				{"name": "cheese", "display_name": "치즈", "count": 2},
+				{"name": "lettuce", "display_name": "상추", "count": 1}
+			],
+			"description": "A warm welcome feast for new friends."
+		},
+		{
+			"name": "Honey Cakes",
+			"display_name": "꿀 케이크",
+			"stage": 2,
+			"ingredients": [
+				{"name": "honey_pot", "display_name": "꿀단지", "count": 3},
+				{"name": "flour", "display_name": "밀가루", "count": 2},
+				{"name": "egg", "display_name": "달걀", "count": 1}
+			],
+			"description": "Pooh's favorite treat - made with the finest honey."
+		},
+		{
+			"name": "Acorn Stew",
+			"display_name": "도토리 스튜",
+			"stage": 3,
+			"ingredients": [
+				{"name": "acorn", "display_name": "도토리", "count": 4},
+				{"name": "carrot", "display_name": "당근", "count": 2},
+				{"name": "mushroom", "display_name": "버섯", "count": 1},
+				{"name": "water", "display_name": "물", "count": 1}
+			],
+			"description": "A hearty forest stew to celebrate at the grand party."
+		}
+	]
+}

@@ -1,0 +1,32 @@
+# Godot 4+ specific ignores
+.godot/
+*.uid_cache
+
+# Godot-specific ignores
+*.translation
+
+# Imported resources
+*.import
+
+# Export presets (may contain sensitive data)
+# export_presets.cfg
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+build/
+export/

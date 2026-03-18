@@ -1,0 +1,80 @@
+{
+	"stages": [
+		{
+			"number": 1,
+			"name": "The Village Dock",
+			"display_name": "마을 선착장",
+			"description": "Mickey arrives by boat. Learn the basics and meet Christopher Robin.",
+			"music": "res://assets/audio/music/stage1_village.ogg",
+			"new_companions": ["christopher_robin"],
+			"recipe": {
+				"name": "Welcome Sandwiches",
+				"display_name": "환영 샌드위치",
+				"ingredients": {
+					"bread": 3,
+					"cheese": 2,
+					"lettuce": 1
+				}
+			},
+			"coin_count": 15,
+			"estimated_time_minutes": 2,
+			"mechanics_introduced": ["walking", "jumping", "coin_collection", "ingredient_collection"],
+			"environment": {
+				"tileset": "village",
+				"background": "village_sky",
+				"features": ["dock", "rooftops", "fence_posts", "bridge"]
+			}
+		},
+		{
+			"number": 2,
+			"name": "The Forest Edge",
+			"display_name": "숲 입구",
+			"description": "Enter the forest and meet Pooh near his honey tree.",
+			"music": "res://assets/audio/music/stage2_forest_edge.ogg",
+			"new_companions": ["pooh"],
+			"recipe": {
+				"name": "Honey Cakes",
+				"display_name": "꿀 케이크",
+				"ingredients": {
+					"honey_pot": 3,
+					"flour": 2,
+					"egg": 1
+				}
+			},
+			"coin_count": 25,
+			"estimated_time_minutes": 3,
+			"mechanics_introduced": ["crouching", "crouch_walking"],
+			"environment": {
+				"tileset": "forest",
+				"background": "forest_edge",
+				"features": ["fallen_logs", "tree_branches", "honey_tree"]
+			}
+		},
+		{
+			"number": 3,
+			"name": "The Deep Forest",
+			"display_name": "깊은 숲",
+			"description": "Navigate the deep forest, find Piglet, and gather ingredients for the party.",
+			"music": "res://assets/audio/music/stage3_deep_forest.ogg",
+			"new_companions": ["piglet"],
+			"recipe": {
+				"name": "Acorn Stew",
+				"display_name": "도토리 스튜",
+				"ingredients": {
+					"acorn": 4,
+					"carrot": 2,
+					"mushroom": 1,
+					"water": 1
+				}
+			},
+			"coin_count": 30,
+			"estimated_time_minutes": 4,
+			"mechanics_introduced": ["moving_platforms"],
+			"environment": {
+				"tileset": "forest",
+				"background": "deep_forest",
+				"features": ["vine_swings", "log_platforms", "hollow_trees", "piglet_house"]
+			}
+		}
+	]
+}

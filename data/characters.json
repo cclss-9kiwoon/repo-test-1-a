@@ -1,0 +1,97 @@
+{
+	"mickey": {
+		"display_name": "Mickey",
+		"type": "player",
+		"source": "Steamboat Willie (1928)",
+		"art_style": "1928 black and white cartoon",
+		"visual_constraints": [
+			"Black and white only",
+			"No gloves",
+			"No red shorts",
+			"Pie-cut eyes",
+			"Long pointed snout",
+			"Thin limbs"
+		],
+		"sprite_size": [64, 64],
+		"collision_size": [32, 48],
+		"animations": {
+			"idle": {"frames": 4, "fps": 4, "loop": true},
+			"walk": {"frames": 8, "fps": 12, "loop": true},
+			"jump": {"frames": 3, "fps": 8, "loop": false},
+			"fall": {"frames": 1, "fps": 1, "loop": false},
+			"crouch": {"frames": 2, "fps": 4, "loop": false},
+			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
+			"collect": {"frames": 4, "fps": 8, "loop": false}
+		}
+	},
+	"pooh": {
+		"display_name": "Pooh",
+		"type": "companion",
+		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
+		"art_style": "E.H. Shepard pen-and-ink illustration",
+		"visual_constraints": [
+			"No red shirt",
+			"No yellow coloring",
+			"Naturalistic bear proportions",
+			"Cross-hatched pen strokes",
+			"Small stocky bear"
+		],
+		"sprite_size": [64, 64],
+		"collision_size": [32, 40],
+		"introduction_stage": 2,
+		"animations": {
+			"idle": {"frames": 4, "fps": 4, "loop": true},
+			"walk": {"frames": 8, "fps": 12, "loop": true},
+			"jump": {"frames": 3, "fps": 8, "loop": false},
+			"fall": {"frames": 1, "fps": 1, "loop": false},
+			"crouch": {"frames": 2, "fps": 4, "loop": false},
+			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
+			"collect": {"frames": 4, "fps": 8, "loop": false}
+		}
+	},
+	"christopher_robin": {
+		"display_name": "Christopher Robin",
+		"type": "companion",
+		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
+		"art_style": "E.H. Shepard pen-and-ink illustration",
+		"visual_constraints": [
+			"Young boy in period clothing",
+			"Shepard illustration style"
+		],
+		"sprite_size": [64, 64],
+		"collision_size": [28, 52],
+		"introduction_stage": 1,
+		"animations": {
+			"idle": {"frames": 4, "fps": 4, "loop": true},
+			"walk": {"frames": 8, "fps": 12, "loop": true},
+			"jump": {"frames": 3, "fps": 8, "loop": false},
+			"fall": {"frames": 1, "fps": 1, "loop": false},
+			"crouch": {"frames": 2, "fps": 4, "loop": false},
+			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
+			"collect": {"frames": 4, "fps": 8, "loop": false}
+		}
+	},
+	"piglet": {
+		"display_name": "Piglet",
+		"type": "companion",
+		"source": "A.A. Milne, Winnie-the-Pooh (1926)",
+		"art_style": "E.H. Shepard pen-and-ink illustration",
+		"visual_constraints": [
+			"Very small body",
+			"Striped body",
+			"Shepard illustration style"
+		],
+		"sprite_size": [48, 48],
+		"collision_size": [20, 32],
+		"introduction_stage": 3,
+		"animations": {
+			"idle": {"frames": 4, "fps": 4, "loop": true},
+			"walk": {"frames": 8, "fps": 12, "loop": true},
+			"jump": {"frames": 3, "fps": 8, "loop": false},
+			"fall": {"frames": 1, "fps": 1, "loop": false},
+			"crouch": {"frames": 2, "fps": 4, "loop": false},
+			"crouch_walk": {"frames": 6, "fps": 10, "loop": true},
+			"collect": {"frames": 4, "fps": 8, "loop": false}
+		}
+	}
+}
