@@ -1,0 +1,322 @@
+:root {
+  --color-bg: #0a0a1a;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text: #ffffff;
+  --color-text-dim: rgba(255, 255, 255, 0.5);
+  --color-accent: #7777ff;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ad-header-height: 90px;
+  --ad-bottom-height: 90px;
+  --ad-sidebar-width: 160px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ad Slots */
+.ad-slot {
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.ad-header {
+  height: var(--ad-header-height);
+}
+
+.ad-bottom {
+  height: var(--ad-bottom-height);
+}
+
+.ad-sidebar {
+  width: var(--ad-sidebar-width);
+  min-width: var(--ad-sidebar-width);
+}
+
+.ad-placeholder {
+  color: var(--color-text-dim);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.5;
+  user-select: none;
+}
+
+/* Main Grid Layout */
+#app-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+#main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Controls Bar */
+#controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+#text-input {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-family: var(--font-main);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#text-input:focus {
+  border-color: var(--color-accent);
+}
+
+#text-input::placeholder {
+  color: var(--color-text-dim);
+}
+
+/* Shape Selector */
+#shape-selector {
+  display: flex;
+  gap: 4px;
+}
+
+.shape-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shape-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+}
+
+.shape-btn.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+/* Color Controls */
+#color-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#color-picker {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+}
+
+#color-picker::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+#color-picker::-webkit-color-swatch {
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+#random-color-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+#random-color-label input {
+  accent-color: var(--color-accent);
+}
+
+/* Export Button */
+#export-btn {
+  padding: 8px 18px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+#export-btn:hover:not(:disabled) {
+  background: #9999ff;
+}
+
+#export-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Canvas Container */
+#canvas-container {
+  flex: 1;
+  position: relative;
+  background: var(--color-bg);
+}
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  background: #1a1a2e;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-ad {
+  width: 300px;
+  height: 250px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+}
+
+#ad-modal-close {
+  padding: 10px 28px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#ad-modal-close:hover {
+  background: #9999ff;
+}
+
+/* Spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#export-progress .modal-content p {
+  color: var(--color-text-dim);
+  font-size: 14px;
+}
+
+/* Responsive: hide sidebars on small screens */
+@media (max-width: 900px) {
+  .ad-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  #controls-bar {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  #text-input {
+    min-width: 100px;
+    font-size: 13px;
+  }
+
+  .shape-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
