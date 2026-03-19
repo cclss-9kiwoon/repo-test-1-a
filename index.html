@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particle Text Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-DWEwAGAN.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CAA5FpT7.css">
+</head>
+<body>
+  <!-- Header Ad -->
+  <header id="ad-header" class="ad-slot ad-header">
+    <div class="ad-placeholder">AD 728x90</div>
+  </header>
+
+  <!-- Main Layout -->
+  <div id="app-layout">
+    <!-- Left Sidebar Ad -->
+    <aside id="ad-left" class="ad-slot ad-sidebar">
+      <div class="ad-placeholder">AD<br>160x600</div>
+    </aside>
+
+    <!-- Central Content -->
+    <main id="main-content">
+      <!-- Controls Bar -->
+      <div id="controls-bar">
+        <input type="text" id="text-input" placeholder="Type something..." maxlength="20" autocomplete="off" />
+
+        <div id="shape-selector">
+          <button class="shape-btn active" data-shape="circle" title="Circle">&#9679;</button>
+          <button class="shape-btn" data-shape="star" title="Star">&#9733;</button>
+          <button class="shape-btn" data-shape="diamond" title="Diamond">&#9670;</button>
+          <button class="shape-btn" data-shape="random" title="Random">&#10022;</button>
+        </div>
+
+        <div id="color-controls">
+          <input type="color" id="color-picker" value="#ffffff" />
+          <label id="random-color-label">
+            <input type="checkbox" id="random-color" />
+            <span>Rainbow</span>
+          </label>
+        </div>
+
+        <button id="export-btn" disabled>Export GIF</button>
+      </div>
+
+      <!-- Canvas Area -->
+      <div id="canvas-container">
+        <canvas id="particle-canvas"></canvas>
+      </div>
+    </main>
+
+    <!-- Right Sidebar Ad -->
+    <aside id="ad-right" class="ad-slot ad-sidebar">
+      <div class="ad-placeholder">AD<br>160x600</div>
+    </aside>
+  </div>
+
+  <!-- Bottom Ad -->
+  <footer id="ad-bottom" class="ad-slot ad-bottom">
+    <div class="ad-placeholder">AD 728x90</div>
+  </footer>
+
+  <!-- Ad Modal -->
+  <div id="ad-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="ad-placeholder modal-ad">AD 300x250</div>
+      <button id="ad-modal-close">Close & Download</button>
+    </div>
+  </div>
+
+  <!-- Export Progress -->
+  <div id="export-progress" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <p>Generating GIF...</p>
+    </div>
+  </div>
+
+</body>
+</html>
