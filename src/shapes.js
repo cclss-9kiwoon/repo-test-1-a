@@ -1,4 +1,4 @@
-const SHAPE_NAMES = ['circle', 'star', 'diamond'];
+export const SHAPE_NAMES = ['circle', 'star', 'diamond'];
 
 export function drawParticle(ctx, particle) {
   ctx.globalAlpha = particle.opacity;

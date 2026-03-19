@@ -1,9 +1,11 @@
 import { Particle, ParticleState } from './Particle.js';
 import { TextSampler } from './TextSampler.js';
-import { drawParticle } from './shapes.js';
+import { drawParticle, SHAPE_NAMES } from './shapes.js';
 import { lerp, easeOutCubic } from './easing.js';
 
 const PARTICLE_COUNT = 4000;
+const MIN_FLOATING = 200;
+const TEXT_RATIO = 0.90;
 
 export class ParticleSystem {
   constructor(canvas) {
@@ -17,7 +19,19 @@ export class ParticleSystem {
     this.particleColor = '#ffffff';
     this.particleShape = 'circle';
 
-    this._depthSorted = []; // Pre-sorted for draw()
+    // Phase 1: Sliders
+    this.speedMultiplier = 1.0;
+    this.density = 1.0;
+    this.fontSizeOverride = 0;
+
+    // Phase 2: Shape cycling
+    this.cycleShapeMode = false;
+
+    // Phase 4: Text area bounds
+    this.textAreaLeft = 0;
+    this.textAreaRight = 0;
+
+    this._depthSorted = [];
     this._initParticles();
   }
 
@@ -29,16 +43,33 @@ export class ParticleSystem {
       p.shape = this.particleShape;
       this.particles.push(p);
     }
-    // Pre-sort by depth (doesn't change at runtime)
     this._depthSorted = [...this.particles].sort((a, b) => a.depth - b.depth);
+  }
+
+  _getSampleOpts(maxPoints) {
+    return {
+      maxPoints,
+      density: this.density,
+      fontSizeOverride: this.fontSizeOverride,
+      textAreaLeft: this.textAreaLeft,
+      textAreaRight: this.textAreaRight,
+    };
   }
 
   setText(text) {
     this.currentText = text;
-    const targets = this.textSampler.sample(text, this.canvas.width, this.canvas.height);
+
+    const maxTextParticles = Math.min(
+      PARTICLE_COUNT - MIN_FLOATING,
+      Math.floor(PARTICLE_COUNT * TEXT_RATIO)
+    );
+
+    const targets = this.textSampler.sample(
+      text, this.canvas.width, this.canvas.height,
+      this._getSampleOpts(maxTextParticles)
+    );
 
     if (targets.length === 0) {
-      // No text — all particles float
       for (const p of this.particles) {
         p.hasTarget = false;
         p.state = ParticleState.FLOATING;
@@ -50,8 +81,6 @@ export class ParticleSystem {
   }
 
   _assignTargets(targets) {
-    // Fast assignment: pair each target with a nearby particle
-    // Sort particles by x-position for spatial locality
     const indexed = this.particles.map((p, i) => ({ p, i }));
     indexed.sort((a, b) => a.p.x - b.p.x);
 
@@ -60,10 +89,8 @@ export class ParticleSystem {
 
     const used = new Uint8Array(this.particles.length);
 
-    // For each target, find nearest particle in a local window
-    const WINDOW = 40; // Check nearby particles in sorted order
+    const WINDOW = 40;
     for (const ts of targetsSorted) {
-      // Binary search for closest x in indexed
       let lo = 0, hi = indexed.length - 1;
       while (lo < hi) {
         const mid = (lo + hi) >> 1;
@@ -94,7 +121,6 @@ export class ParticleSystem {
       }
     }
 
-    // Apply assignments
     const assignMap = new Map();
     for (const ts of targetsSorted) {
       if (ts.assigned !== -1) {
@@ -139,14 +165,50 @@ export class ParticleSystem {
     this.randomColorMode = enabled;
   }
 
+  setSpeedMultiplier(value) {
+    this.speedMultiplier = value;
+  }
+
+  setDensity(value) {
+    this.density = value;
+    if (this.currentText) {
+      this.setText(this.currentText);
+    }
+  }
+
+  setFontSize(value) {
+    this.fontSizeOverride = value;
+    if (this.currentText) {
+      this.setText(this.currentText);
+    }
+  }
+
+  setCycleShapeMode(enabled) {
+    this.cycleShapeMode = enabled;
+  }
+
+  setTextAreaBounds(left, right) {
+    this.textAreaLeft = left;
+    this.textAreaRight = right;
+    if (this.currentText) {
+      this.setText(this.currentText);
+    }
+  }
+
   update(deltaTime) {
     this.elapsed += deltaTime;
 
     for (const p of this.particles) {
-      // Update color if random mode
       if (this.randomColorMode) {
         const hue = (this.elapsed * 30 + p.depth * 360 + p.wobblePhase * 57) % 360;
         p.color = `hsl(${hue}, 80%, 60%)`;
+      }
+
+      if (this.cycleShapeMode) {
+        const shapeIdx = Math.floor(
+          (this.elapsed * 0.5 + p.depth * 3 + p.wobblePhase) % SHAPE_NAMES.length
+        );
+        p.shape = SHAPE_NAMES[shapeIdx];
       }
 
       switch (p.state) {
@@ -166,7 +228,6 @@ export class ParticleSystem {
   _updateFloating(p, dt) {
     const speed = p.baseSpeed;
 
-    // Wobble for organic motion
     p.wobblePhase += p.wobbleSpeed * dt;
     const wobbleX = Math.sin(p.wobblePhase) * p.wobbleAmplitude;
     const wobbleY = Math.cos(p.wobblePhase * 0.7) * p.wobbleAmplitude;
@@ -174,7 +235,6 @@ export class ParticleSystem {
     p.x += (p.vx * speed + wobbleX) * dt * 60;
     p.y += (p.vy * speed + wobbleY) * dt * 60;
 
-    // Wrap around edges
     const w = this.canvas.width;
     const h = this.canvas.height;
     if (p.x < -10) p.x = w + 10;
@@ -187,7 +247,7 @@ export class ParticleSystem {
   }
 
   _updateConverging(p, dt) {
-    p.convergeProgress += p.convergeSpeed * dt * 60;
+    p.convergeProgress += p.convergeSpeed * this.speedMultiplier * dt * 60;
 
     if (p.convergeProgress >= 1) {
       p.convergeProgress = 1;
@@ -201,9 +261,8 @@ export class ParticleSystem {
     p.x = lerp(p.startX, p.targetX, t);
     p.y = lerp(p.startY, p.targetY, t);
 
-    // Grow slightly brighter as converging
     p.opacity = lerp(p.baseOpacity, 1, t);
-    p.size = lerp(p.baseSize, p.baseSize * 1.2, t * (1 - t) * 4); // Slight bulge mid-converge
+    p.size = lerp(p.baseSize, p.baseSize * 1.2, t * (1 - t) * 4);
   }
 
   _updateFormed(p, dt) {
@@ -217,22 +276,26 @@ export class ParticleSystem {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Draw back-to-front using pre-sorted array (depth never changes)
     for (const p of this._depthSorted) {
       drawParticle(this.ctx, p);
     }
   }
 
   handleResize(w, h) {
-    // Re-sample text if there is text
     if (this.currentText) {
-      const targets = this.textSampler.sample(this.currentText, w, h);
+      const maxTextParticles = Math.min(
+        PARTICLE_COUNT - MIN_FLOATING,
+        Math.floor(PARTICLE_COUNT * TEXT_RATIO)
+      );
+      const targets = this.textSampler.sample(
+        this.currentText, w, h,
+        this._getSampleOpts(maxTextParticles)
+      );
       if (targets.length > 0) {
         this._assignTargets(targets);
       }
     }
 
-    // Clamp floating particles
     for (const p of this.particles) {
       if (p.state === ParticleState.FLOATING) {
         p.x = Math.min(p.x, w);
@@ -241,7 +304,6 @@ export class ParticleSystem {
     }
   }
 
-  // Used by GIF exporter to reset state
   resetParticles() {
     for (const p of this.particles) {
       p.reset(this.canvas.width, this.canvas.height);

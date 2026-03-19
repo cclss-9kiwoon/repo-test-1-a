@@ -1,11 +1,16 @@
 export class UIController {
-  constructor({ onTextChange, onShapeChange, onColorChange, onRandomColor, onExport }) {
-    this.callbacks = { onTextChange, onShapeChange, onColorChange, onRandomColor, onExport };
+  constructor(callbacks) {
+    this.callbacks = callbacks;
     this._adModalResolve = null;
 
     this._bindInput();
     this._bindShapeSelector();
     this._bindColorPicker();
+    this._bindCycleShape();
+    this._bindSpeedSlider();
+    this._bindDensitySlider();
+    this._bindFontSizeSlider();
+    this._bindGifControls();
     this._bindExportButton();
     this._bindAdModal();
   }
@@ -52,6 +57,59 @@ export class UIController {
       if (!e.target.checked) {
         this.callbacks.onColorChange(picker.value);
       }
+    });
+  }
+
+  _bindCycleShape() {
+    const checkbox = document.getElementById('cycle-shape');
+    checkbox.addEventListener('change', (e) => {
+      this.callbacks.onCycleShape(e.target.checked);
+    });
+  }
+
+  _bindSpeedSlider() {
+    const slider = document.getElementById('speed-slider');
+    const display = document.getElementById('speed-value');
+    slider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      display.textContent = val.toFixed(1) + 'x';
+      this.callbacks.onSpeedChange(val);
+    });
+  }
+
+  _bindDensitySlider() {
+    const slider = document.getElementById('density-slider');
+    const display = document.getElementById('density-value');
+    slider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      display.textContent = val.toFixed(1);
+      this.callbacks.onDensityChange(val);
+    });
+  }
+
+  _bindFontSizeSlider() {
+    const slider = document.getElementById('fontsize-slider');
+    const display = document.getElementById('fontsize-value');
+    slider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      display.textContent = val === 0 ? 'Auto' : val + 'px';
+      this.callbacks.onFontSizeChange(val);
+    });
+  }
+
+  _bindGifControls() {
+    const durationSlider = document.getElementById('gif-duration');
+    const durationDisplay = document.getElementById('gif-duration-value');
+    const qualitySelect = document.getElementById('gif-quality');
+
+    durationSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      durationDisplay.textContent = val + 's';
+      this.callbacks.onGifDurationChange(val);
+    });
+
+    qualitySelect.addEventListener('change', (e) => {
+      this.callbacks.onGifQualityChange(e.target.value);
     });
   }
 

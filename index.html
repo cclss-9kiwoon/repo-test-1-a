@@ -26,13 +26,17 @@
     <main id="main-content">
       <!-- Controls Bar -->
       <div id="controls-bar">
-        <input type="text" id="text-input" placeholder="Type something..." maxlength="20" autocomplete="off" />
+        <input type="text" id="text-input" placeholder="Type something..." maxlength="200" autocomplete="off" />
 
         <div id="shape-selector">
           <button class="shape-btn active" data-shape="circle" title="Circle">&#9679;</button>
           <button class="shape-btn" data-shape="star" title="Star">&#9733;</button>
           <button class="shape-btn" data-shape="diamond" title="Diamond">&#9670;</button>
           <button class="shape-btn" data-shape="random" title="Random">&#10022;</button>
+          <label id="cycle-shape-label">
+            <input type="checkbox" id="cycle-shape" />
+            <span>Cycle</span>
+          </label>
         </div>
 
         <div id="color-controls">
@@ -43,7 +47,46 @@
           </label>
         </div>
 
-        <button id="export-btn" disabled>Export GIF</button>
+        <div class="slider-group">
+          <label for="speed-slider">Speed</label>
+          <input type="range" id="speed-slider" min="0.2" max="3" step="0.1" value="1" />
+          <span id="speed-value" class="slider-value">1.0x</span>
+        </div>
+
+        <div class="slider-group">
+          <label for="density-slider">Density</label>
+          <input type="range" id="density-slider" min="0.3" max="2" step="0.1" value="1" />
+          <span id="density-value" class="slider-value">1.0</span>
+        </div>
+
+        <div class="slider-group">
+          <label for="fontsize-slider">Size</label>
+          <input type="range" id="fontsize-slider" min="0" max="150" step="5" value="0" />
+          <span id="fontsize-value" class="slider-value">Auto</span>
+        </div>
+
+        <div id="export-controls">
+          <div class="slider-group">
+            <label for="gif-duration">GIF</label>
+            <input type="range" id="gif-duration" min="3" max="15" step="1" value="5" />
+            <span id="gif-duration-value" class="slider-value">5s</span>
+          </div>
+          <select id="gif-quality">
+            <option value="low">Low ~1MB</option>
+            <option value="medium" selected>Mid ~3MB</option>
+            <option value="high">High ~5MB</option>
+          </select>
+          <button id="export-btn" disabled>Export GIF</button>
+        </div>
+      </div>
+
+      <!-- Width Markers -->
+      <div id="width-marker-bar">
+        <div class="wm-track">
+          <div class="wm-track-fill"></div>
+        </div>
+        <div class="wm-handle wm-handle-left" title="Left text boundary">&#9660;</div>
+        <div class="wm-handle wm-handle-right" title="Right text boundary">&#9660;</div>
       </div>
 
       <!-- Canvas Area -->
