@@ -1,0 +1,36 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.overlay > * {
+  pointer-events: auto;
+}
+
+.topLeft {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.topRight {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.bottomCenter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
