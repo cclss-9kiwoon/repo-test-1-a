@@ -3,11 +3,306 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SwingByMe - Orbital Mechanics Simulator</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
-  <script type="module" crossorigin src="/assets/index-i25m_j6_.js"></script>
+  <title>AI Random RPG</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    #game-container {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      margin: 0 auto;
+      border: 2px solid #444;
+    }
+    #game-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
+
+    /* UI Overlay */
+    .ui-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ui-overlay.active { display: flex; }
+
+    /* Title Screen */
+    #title-screen {
+      background: rgba(0,0,0,0.9);
+      gap: 20px;
+      text-align: center;
+    }
+    #title-screen h1 {
+      font-size: 48px;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    #title-screen input {
+      padding: 12px 20px;
+      font-size: 18px;
+      width: 400px;
+      border: 2px solid #ffd700;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      text-align: center;
+      outline: none;
+    }
+    #title-screen input::placeholder { color: #888; }
+    .btn {
+      padding: 12px 32px;
+      font-size: 18px;
+      border: 2px solid #ffd700;
+      border-radius: 8px;
+      background: rgba(255,215,0,0.15);
+      color: #ffd700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: rgba(255,215,0,0.3); }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+    .btn-group { display: flex; gap: 12px; }
+
+    /* Dialog */
+    #dialog-screen {
+      background: rgba(0,0,0,0.85);
+      padding: 40px;
+      text-align: center;
+      gap: 20px;
+    }
+    #dialog-screen h2 { color: #ffd700; font-size: 28px; }
+    #dialog-screen p { font-size: 18px; line-height: 1.6; max-width: 600px; }
+
+    /* Battle */
+    #battle-screen {
+      background: rgba(0,0,0,0.9);
+    }
+    .battle-arena {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      height: 300px;
+      padding: 20px;
+    }
+    .battle-entity {
+      text-align: center;
+    }
+    .battle-entity .sprite {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 10px;
+      border-radius: 8px;
+    }
+    .battle-entity .name { font-size: 18px; font-weight: bold; }
+    .hp-bar-container {
+      width: 120px;
+      height: 12px;
+      background: #333;
+      border-radius: 6px;
+      margin: 6px auto;
+      overflow: hidden;
+    }
+    .hp-bar {
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.3s;
+    }
+    .hp-bar.low { background: #f44336; }
+    .hp-text { font-size: 12px; color: #aaa; }
+
+    .battle-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+    }
+    .battle-menu .menu-row {
+      display: flex;
+      gap: 10px;
+    }
+    .battle-log {
+      width: 100%;
+      padding: 10px 40px;
+      font-size: 16px;
+      text-align: center;
+      color: #ccc;
+      min-height: 50px;
+    }
+
+    /* Shop */
+    #shop-screen {
+      background: rgba(0,0,0,0.92);
+      gap: 16px;
+      padding: 30px;
+    }
+    #shop-screen h2 { color: #ffd700; font-size: 32px; }
+    .shop-section { width: 100%; max-width: 600px; }
+    .shop-section h3 { color: #ffa500; margin-bottom: 8px; }
+    .shop-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .shop-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.05);
+      padding: 10px 16px;
+      border-radius: 6px;
+    }
+    .shop-item .item-info { flex: 1; }
+    .shop-item .item-name { font-weight: bold; }
+    .shop-item .item-desc { font-size: 13px; color: #aaa; }
+    .shop-gold { color: #ffd700; font-size: 20px; margin-bottom: 10px; }
+    .enhance-result { font-size: 16px; margin-top: 8px; min-height: 24px; }
+    .enhance-result.success { color: #4caf50; }
+    .enhance-result.fail { color: #f44336; }
+    .enhance-result.destroy { color: #ff0000; font-weight: bold; }
+
+    /* HUD */
+    #hud {
+      position: absolute;
+      top: 8px; left: 8px; right: 8px;
+      display: none;
+      justify-content: space-between;
+      font-size: 14px;
+      pointer-events: none;
+    }
+    #hud.active { display: flex; }
+    .hud-left, .hud-right {
+      background: rgba(0,0,0,0.6);
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    /* Ending */
+    #ending-screen {
+      background: rgba(0,0,0,0.95);
+      gap: 24px;
+      text-align: center;
+      padding: 40px;
+    }
+    #ending-screen h1 { font-size: 40px; }
+    #ending-screen p { font-size: 18px; line-height: 1.6; max-width: 600px; }
+    .ending-good h1 { color: #ffd700; }
+    .ending-bad h1 { color: #f44336; }
+  </style>
+  <script type="module" crossorigin src="/repo-test-1-a/assets/index-Dak7v1xs.js"></script>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="game-container">
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-left">
+        <span id="hud-name">Hero</span> Lv.<span id="hud-level">1</span>
+        HP: <span id="hud-hp">100</span>/<span id="hud-maxhp">100</span>
+      </div>
+      <div class="hud-right">
+        Gold: <span id="hud-gold">0</span> |
+        Stage <span id="hud-stage">1</span>
+      </div>
+    </div>
+
+    <!-- Title Screen -->
+    <div id="title-screen" class="ui-overlay active">
+      <h1>AI Random RPG</h1>
+      <p>주제를 입력하면 랜덤 줄거리가 생성됩니다!</p>
+      <input id="theme-input" type="text" placeholder="주제를 입력하세요 (예: 우주, 바다, 용)" />
+      <div class="btn-group">
+        <button id="btn-new-game" class="btn">새로 시작</button>
+        <button id="btn-continue" class="btn" disabled>이어하기</button>
+      </div>
+    </div>
+
+    <!-- Dialog Screen -->
+    <div id="dialog-screen" class="ui-overlay">
+      <h2 id="dialog-title">제목</h2>
+      <p id="dialog-text">내용</p>
+      <button id="btn-dialog-next" class="btn">계속</button>
+    </div>
+
+    <!-- Battle Screen -->
+    <div id="battle-screen" class="ui-overlay">
+      <div class="battle-arena">
+        <div class="battle-entity" id="battle-player">
+          <div class="sprite" id="player-sprite"></div>
+          <div class="name" id="battle-player-name">Hero</div>
+          <div class="hp-bar-container"><div class="hp-bar" id="player-hp-bar"></div></div>
+          <div class="hp-text" id="player-hp-text">100/100</div>
+        </div>
+        <div style="font-size:32px;color:#ffd700;">VS</div>
+        <div class="battle-entity" id="battle-enemy">
+          <div class="sprite" id="enemy-sprite"></div>
+          <div class="name" id="battle-enemy-name">Monster</div>
+          <div class="hp-bar-container"><div class="hp-bar" id="enemy-hp-bar"></div></div>
+          <div class="hp-text" id="enemy-hp-text">50/50</div>
+        </div>
+      </div>
+      <div class="battle-log" id="battle-log">전투 시작!</div>
+      <div class="battle-menu" id="battle-menu">
+        <div class="menu-row" id="battle-main-menu">
+          <button class="btn" data-action="fight">전투</button>
+          <button class="btn" data-action="run">도망</button>
+          <button class="btn" data-action="item">아이템</button>
+        </div>
+        <div class="menu-row" id="battle-fight-menu" style="display:none;">
+          <button class="btn" data-action="attack">공격</button>
+          <button class="btn" data-action="defend">방어</button>
+          <button class="btn" data-action="dodge">회피</button>
+          <button class="btn" data-action="back">뒤로</button>
+        </div>
+        <div class="menu-row" id="battle-item-menu" style="display:none;">
+          <button class="btn" data-action="use-potion">물약 사용 (<span id="potion-count">0</span>)</button>
+          <button class="btn" data-action="back">뒤로</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Screen -->
+    <div id="shop-screen" class="ui-overlay">
+      <h2>상점</h2>
+      <div class="shop-gold">Gold: <span id="shop-gold">0</span></div>
+      <div class="shop-section">
+        <h3>구매</h3>
+        <div class="shop-items" id="shop-buy-items"></div>
+      </div>
+      <div class="shop-section">
+        <h3>강화</h3>
+        <div class="shop-items" id="shop-enhance-items"></div>
+        <div class="enhance-result" id="enhance-result"></div>
+      </div>
+      <button id="btn-shop-close" class="btn" style="margin-top:16px;">상점 나가기</button>
+    </div>
+
+    <!-- Ending Screen -->
+    <div id="ending-screen" class="ui-overlay">
+      <h1 id="ending-title">엔딩</h1>
+      <p id="ending-text">엔딩 내용</p>
+      <div class="btn-group">
+        <button id="btn-new-game-end" class="btn">새로 시작</button>
+        <button id="btn-continue-end" class="btn">이어하기 (New Game+)</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
