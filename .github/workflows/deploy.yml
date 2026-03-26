@@ -35,11 +35,11 @@ jobs:
 
       # Build Sunset project (v2)
       - name: Install Sunset dependencies
-        working-directory: sunset-project
+        working-directory: planet-game
         run: rm -f package-lock.json && npm install
 
       - name: Build Sunset
-        working-directory: sunset-project
+        working-directory: planet-game
         run: npm run build
 
       # Assemble final site
@@ -48,7 +48,7 @@ jobs:
           mkdir -p _site/weather _site/sunset
           cp landing/index.html _site/
           cp -r dist/* _site/weather/
-          cp -r sunset-project/dist/* _site/sunset/
+          cp -r planet-game/dist/* _site/sunset/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
