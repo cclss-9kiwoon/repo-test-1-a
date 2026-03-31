@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { TestResult } from "@/types";
+import { loadResult } from "@/lib/analyze-client";
 import Link from "next/link";
 
 export default function ResultPage() {
@@ -12,29 +13,19 @@ export default function ResultPage() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    async function fetchResult() {
-      try {
-        const response = await fetch(`/api/analyze?id=${params.id}`);
-        if (!response.ok) throw new Error("결과 로드 실패");
-        const data = await response.json();
-        setResult(data);
-      } catch {
-        setResult(null);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchResult();
+    const data = loadResult(params.id as string);
+    setResult(data);
+    setLoading(false);
   }, [params.id]);
 
-  async function handleShare(platform: "copy" | "twitter") {
+  function handleShare(platform: "copy" | "twitter") {
     if (!result) return;
 
-    const shareUrl = `${window.location.origin}/result/${result.id}`;
+    const shareUrl = window.location.href;
     const shareText = `🔮 나의 심리 테스트 결과: "${result.typeName}" - ${result.oneLineSummary}`;
 
     if (platform === "copy") {
-      await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
+      navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } else if (platform === "twitter") {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types";
+import { analyzeLocally, saveResult } from "@/lib/analyze-client";
 
 interface TestRunnerProps {
   testId: string;
@@ -21,7 +22,7 @@ export default function TestRunner({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentQuestion = questions[currentIndex];
-  const progress = ((currentIndex) / questions.length) * 100;
+  const progress = (currentIndex / questions.length) * 100;
 
   function handleAnswer(answer: string) {
     const newAnswers = { ...answers, [currentQuestion.id]: answer };
@@ -34,30 +35,28 @@ export default function TestRunner({
     }
   }
 
-  async function submitAnswers(finalAnswers: Record<string, string>) {
+  function submitAnswers(finalAnswers: Record<string, string>) {
     setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+
+    // Simulate analysis delay for UX
+    setTimeout(() => {
+      try {
+        const result = analyzeLocally({
           testId,
           testTitle,
           questions: questions.map((q) => ({
             text: q.text,
             answer: finalAnswers[q.id] || "",
           })),
-        }),
-      });
+        });
 
-      if (!response.ok) throw new Error("분석 실패");
-
-      const result = await response.json();
-      router.push(`/result/${result.id}`);
-    } catch {
-      setIsSubmitting(false);
-      alert("분석 중 오류가 발생했습니다. 다시 시도해주세요.");
-    }
+        saveResult(result);
+        router.push(`/result/${result.id}/`);
+      } catch {
+        setIsSubmitting(false);
+        alert("분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    }, 1500);
   }
 
   if (isSubmitting) {
