@@ -1,0 +1,332 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: #f5a623;
+  margin-bottom: 8px;
+}
+
+.header-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+/* Battle Area */
+.battle-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.team-side, .enemy-side {
+  flex: 1;
+}
+
+.team-side h2, .enemy-side h2 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: #ccc;
+}
+
+.vs {
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f5a623;
+  padding: 20px 8px;
+}
+
+/* Character Cards */
+.team-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.char-card {
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.char-emoji {
+  font-size: 2rem;
+}
+
+.char-name {
+  font-size: 0.85rem;
+  color: #ddd;
+  margin: 4px 0;
+}
+
+.char-stats {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* HP Bar */
+.hp-bar-wrap {
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.hp-bar {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.hp-bar-enemy {
+  background: #e53935;
+}
+
+/* Enemy */
+.enemy-card {
+  background: #2c1320;
+  border: 1px solid #5c2040;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.enemy-emoji {
+  font-size: 3rem;
+}
+
+.enemy-name {
+  font-size: 1rem;
+  margin: 6px 0 2px;
+  color: #eee;
+}
+
+.enemy-element {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.enemy-hp {
+  height: 12px;
+}
+
+.enemy-stats {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* Battle Log */
+.log-section {
+  margin-bottom: 16px;
+}
+
+.log-section h2 {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.battle-log {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 10px;
+  height: 160px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.log-line {
+  padding: 1px 0;
+  border-bottom: 1px solid #161b22;
+}
+
+/* Controls */
+.controls-section {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  flex: 1;
+  min-width: 200px;
+  background: #16213e;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.control-group h3 {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+/* Element Buttons */
+.element-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.el-btn {
+  flex: 1;
+  padding: 8px 4px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  background: #1a1a2e;
+  color: #ddd;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.el-btn:hover {
+  border-color: #f5a623;
+}
+
+.el-btn.active {
+  border-color: #f5a623;
+  background: #2a2040;
+  color: #f5a623;
+  font-weight: bold;
+}
+
+/* Upgrade Buttons */
+.upgrade-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  background: #16213e;
+  color: #ddd;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upgrade-btn:hover:not(:disabled) {
+  background: #1a3a6e;
+  border-color: #4caf50;
+}
+
+.upgrade-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Stage Navigation Buttons */
+.stage-btn {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #f5a623;
+  border-radius: 6px;
+  background: #2a2040;
+  color: #f5a623;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 6px;
+}
+
+.stage-btn:hover:not(:disabled) {
+  background: #3a3060;
+}
+
+.stage-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #555;
+  color: #555;
+}
+
+.replay-btn {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.replay-btn:hover:not(:disabled) {
+  background: #1a3a2a;
+}
+
+.prev-btn {
+  border-color: #666;
+  color: #999;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.prev-btn:hover:not(:disabled) {
+  background: #2a2a3a;
+}
+
+/* Scrollbar */
+.battle-log::-webkit-scrollbar {
+  width: 6px;
+}
+
+.battle-log::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+.battle-log::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .battle-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vs {
+    text-align: center;
+    padding: 4px;
+  }
+
+  .controls-section {
+    flex-direction: column;
+  }
+
+  .control-group {
+    min-width: unset;
+  }
+}

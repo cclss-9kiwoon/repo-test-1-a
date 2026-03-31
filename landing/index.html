@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Showcase — Weather & Sunset</title>
+  <title>Indie Project Showcase</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
@@ -86,9 +86,9 @@
 
     .cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      max-width: 720px;
+      max-width: 960px;
       margin: 0 auto;
     }
 
@@ -126,6 +126,10 @@
 
     .card-sunset {
       background: linear-gradient(135deg, rgba(80, 30, 10, 0.8), rgba(40, 10, 5, 0.9));
+    }
+
+    .card-game {
+      background: linear-gradient(135deg, rgba(20, 60, 30, 0.8), rgba(10, 30, 15, 0.9));
     }
 
     .card-version {
@@ -202,9 +206,9 @@
 </head>
 <body>
   <div class="container">
-    <div class="badge">3D Showcase Collection</div>
-    <h1>Experience <span>Nature</span><br/>in Three Dimensions</h1>
-    <p class="subtitle">Two immersive 3D experiences built with Three.js & GSAP scroll animations</p>
+    <div class="badge">Indie Project Collection</div>
+    <h1>Creative <span>Experiments</span><br/>& Prototypes</h1>
+    <p class="subtitle">3D experiences, idle games, and interactive prototypes</p>
 
     <div class="cards">
       <a href="./weather/" class="card card-weather">
@@ -221,9 +225,16 @@
         <div class="card-desc">Ocean sunset on a sandy beach, and a Little Prince-inspired planet sunset in the cosmos</div>
         <div class="card-cta">Explore Sunset</div>
       </a>
+      <a href="./sous-vide-idle/" class="card card-game">
+        <div class="card-version">V3 — Idle RPG</div>
+        <div class="card-emoji">🥩🐄🐷🐔</div>
+        <div class="card-title">수비드 키우기</div>
+        <div class="card-desc">Meat Guardians vs Zoo Animals — idle auto-battle RPG with elemental strategy</div>
+        <div class="card-cta">Play Game</div>
+      </a>
     </div>
   </div>
 
-  <div class="footer">Built with Three.js & GSAP</div>
+  <div class="footer">Built with Three.js, GSAP & Vanilla JS</div>
 </body>
 </html>
