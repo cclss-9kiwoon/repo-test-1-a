@@ -18,7 +18,7 @@ import { Camera } from './camera.js';
 import { updateInput, justPressed } from './input.js';
 import { updateParticles, drawParticles, clearParticles, emitParticles } from './particles.js';
 import { drawTomato, drawDragon, drawMapFire } from './draw.js';
-import { drawUI, drawSpecialCountdown, drawWarning, getVictoryButtonBounds } from './ui.js';
+import { drawUI, drawWarning, getVictoryButtonBounds } from './ui.js';
 import { circleInArcSimple, angleBetween, pointInStar, distance } from './collision.js';
 
 // ===== CANVAS SETUP =====
@@ -361,10 +361,10 @@ function render(time) {
     // Particles (world space)
     drawParticles(ctx);
 
-    // Special phase fire overlay
-    if (dragon.isFireActive()) {
-        const intensity = Math.min(1, dragon.specialTimer / 0.5);
-        drawMapFire(ctx, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH / 2, MAP_HEIGHT / 2, STAR_RADIUS, intensity);
+    // Special phase fire overlay (with fade-out into crash)
+    const fireIntensity = dragon.getFireOverlayIntensity();
+    if (fireIntensity > 0) {
+        drawMapFire(ctx, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH / 2, MAP_HEIGHT / 2, STAR_RADIUS, fireIntensity);
     }
 
     camera.restoreTransform(ctx);
@@ -372,19 +372,13 @@ function render(time) {
     // Screen-space UI
     drawUI(ctx, gameState, player, dragon, eggs, timer, ngLevel);
 
-    // Special phase countdown
-    const hoverTime = dragon.getSpecialHoverTimeLeft();
-    if (hoverTime > 0) {
-        drawSpecialCountdown(ctx, hoverTime);
-    }
-
-    // Warning during special setup/rising
-    if (dragon.state === DS_SPECIAL_SETUP || dragon.state === DS_SPECIAL_RISING) {
+    // Warning during special setup/rising/hovering
+    if (dragon.state === DS_SPECIAL_SETUP || dragon.state === DS_SPECIAL_RISING || dragon.state === DS_SPECIAL_HOVERING) {
         drawWarning(ctx, '⚠ 별 안으로! ⚠');
     }
 
-    // Warning before crash
-    if (dragon.state === DS_SPECIAL_FIRE && dragon.specialTimer > 1.5) {
+    // Warning before crash (during sky wait after fire)
+    if (dragon.state === DS_SPECIAL_CRASH && dragon.specialTimer < 2.0) {
         drawWarning(ctx, '⚠ 별 밖으로! ⚠');
     }
 
