@@ -1,22 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { TestResult } from "@/types";
 import { loadResult } from "@/lib/analyze-client";
 import Link from "next/link";
 
-export default function ResultPage() {
-  const params = useParams();
+function ResultContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const [result, setResult] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const data = loadResult(params.id as string);
-    setResult(data);
+    if (id) {
+      const data = loadResult(id);
+      setResult(data);
+    }
     setLoading(false);
-  }, [params.id]);
+  }, [id]);
 
   function handleShare(platform: "copy" | "twitter") {
     if (!result) return;
@@ -149,5 +152,22 @@ export default function ResultPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-lg mx-auto px-4 py-16 text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-card-bg rounded-lg mb-4 w-48 mx-auto" />
+            <div className="h-4 bg-card-bg rounded mb-2 w-64 mx-auto" />
+          </div>
+        </div>
+      }
+    >
+      <ResultContent />
+    </Suspense>
   );
 }

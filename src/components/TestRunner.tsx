@@ -51,7 +51,7 @@ export default function TestRunner({
         });
 
         saveResult(result);
-        router.push(`/result/${result.id}/`);
+        router.push(`/result/?id=${result.id}`);
       } catch {
         setIsSubmitting(false);
         alert("분석 중 오류가 발생했습니다. 다시 시도해주세요.");
