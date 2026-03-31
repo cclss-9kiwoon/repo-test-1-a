@@ -6,7 +6,9 @@ import {
     PS_MOVING, PS_ROLLING, PS_ATTACKING, PS_FLINCHING, PS_STAGGERING, PS_DEAD,
     DS_FIRE_BREATH, DS_TAIL_SWIPE, DS_WING_GUST,
     DS_SPECIAL_RISING, DS_SPECIAL_HOVERING, DS_SPECIAL_FIRE, DS_SPECIAL_CRASH,
-    DS_STUNNED, DS_DEAD, AP_ACTIVE
+    DS_STUNNED, DS_DEAD, AP_ACTIVE, AP_WINDUP,
+    attackConfig, SPECIAL_CRASH_RADIUS, HEAVY_SLASH_ARC, HEAVY_SLASH_RANGE,
+    THRUST_LENGTH, THRUST_WIDTH, MAP_WIDTH, MAP_HEIGHT
 } from './constants.js';
 
 // ========== TOMATO PLAYER ==========
@@ -575,4 +577,112 @@ export function drawDish(ctx, cx, cy) {
         ctx.lineTo(gx + 8, gy - 3);
         ctx.stroke();
     }
+}
+
+// ========== DEBUG HITBOXES ==========
+export function drawDebugHitboxes(ctx, dragon, player) {
+    ctx.save();
+
+    // Dragon attack hitboxes
+    if (dragon.state === DS_FIRE_BREATH) {
+        const headDist = DRAGON_RADIUS + 12;
+        const fx = dragon.x + Math.cos(dragon.facing) * headDist;
+        const fy = dragon.y + Math.sin(dragon.facing) * headDist;
+        const isActive = dragon.attackPhase === AP_ACTIVE;
+        drawConeHitbox(ctx, fx, fy, dragon.facing, attackConfig.fireBreathSpread, attackConfig.fireBreathRange,
+            isActive ? 'rgba(255, 60, 0, 0.25)' : 'rgba(255, 60, 0, 0.10)',
+            isActive ? 'rgba(255, 60, 0, 0.6)' : 'rgba(255, 60, 0, 0.3)');
+    }
+
+    if (dragon.state === DS_TAIL_SWIPE) {
+        const tailAngle = dragon.facing + Math.PI;
+        const isActive = dragon.attackPhase === AP_ACTIVE;
+        drawArcHitbox(ctx, dragon.x, dragon.y, tailAngle, attackConfig.tailSwipeArc, attackConfig.tailSwipeRange,
+            isActive ? 'rgba(0, 100, 255, 0.25)' : 'rgba(0, 100, 255, 0.10)',
+            isActive ? 'rgba(0, 100, 255, 0.6)' : 'rgba(0, 100, 255, 0.3)');
+    }
+
+    if (dragon.state === DS_WING_GUST) {
+        const isActive = dragon.attackPhase === AP_ACTIVE;
+        drawConeHitbox(ctx, dragon.x, dragon.y, dragon.facing, attackConfig.wingGustSpread, attackConfig.wingGustRange,
+            isActive ? 'rgba(0, 200, 100, 0.25)' : 'rgba(0, 200, 100, 0.10)',
+            isActive ? 'rgba(0, 200, 100, 0.6)' : 'rgba(0, 200, 100, 0.3)');
+    }
+
+    if (dragon.state === DS_SPECIAL_CRASH && dragon.specialTimer >= 2.0) {
+        const MAP_CX = MAP_WIDTH / 2;
+        const MAP_CY = MAP_HEIGHT / 2;
+        ctx.fillStyle = 'rgba(255, 200, 0, 0.2)';
+        ctx.strokeStyle = 'rgba(255, 200, 0, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(MAP_CX, MAP_CY, SPECIAL_CRASH_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+    }
+
+    // Player attack hitbox
+    if (player.state === PS_ATTACKING && player.attackPhase === AP_ACTIVE) {
+        const hitbox = player.getAttackHitbox();
+        if (hitbox) {
+            if (hitbox.type === 'arc') {
+                drawArcHitbox(ctx, hitbox.cx, hitbox.cy, hitbox.centerAngle, hitbox.sweep, hitbox.range,
+                    'rgba(255, 255, 0, 0.25)', 'rgba(255, 255, 0, 0.6)');
+            } else if (hitbox.type === 'rect') {
+                ctx.save();
+                ctx.translate(player.x, player.y);
+                ctx.rotate(hitbox.angle);
+                ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
+                ctx.strokeStyle = 'rgba(255, 255, 0, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.fillRect(0, -THRUST_WIDTH / 2, hitbox.length, THRUST_WIDTH);
+                ctx.strokeRect(0, -THRUST_WIDTH / 2, hitbox.length, THRUST_WIDTH);
+                ctx.restore();
+            }
+        }
+    }
+
+    // Always show dragon hitbox circle
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.arc(dragon.x, dragon.y, dragon.radius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Player hitbox circle
+    ctx.beginPath();
+    ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.restore();
+}
+
+function drawConeHitbox(ctx, ox, oy, angle, spread, range, fillColor, strokeColor) {
+    ctx.save();
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    ctx.arc(ox, oy, range, angle - spread / 2, angle + spread / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+}
+
+function drawArcHitbox(ctx, ox, oy, centerAngle, arc, range, fillColor, strokeColor) {
+    ctx.save();
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    ctx.arc(ox, oy, range, centerAngle - arc / 2, centerAngle + arc / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
 }
