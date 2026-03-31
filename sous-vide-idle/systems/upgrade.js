@@ -8,7 +8,7 @@ export class UpgradeSystem {
 
   getCost(type) {
     const level = this.levels[type];
-    return 100 * Math.pow(2, level);
+    return 80 + level * 40 + level * level * 20;
   }
 
   canUpgrade(type, gold) {
@@ -24,11 +24,11 @@ export class UpgradeSystem {
   }
 
   getAttackBonus() {
-    return this.levels.attack * 2;
+    return this.levels.attack * 3;
   }
 
   getHpBonus() {
-    return this.levels.hp * 10;
+    return this.levels.hp * 15;
   }
 
   getLevel(type) {

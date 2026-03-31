@@ -7,31 +7,30 @@ export class StageSystem {
   }
 
   spawnEnemy() {
-    // Pick enemy based on stage difficulty tier
-    let pool;
-    if (this.currentStage <= 5) {
-      pool = ENEMIES.slice(0, 4);       // weak enemies
-    } else if (this.currentStage <= 10) {
-      pool = ENEMIES.slice(2, 7);       // medium enemies
-    } else {
-      pool = ENEMIES.slice(5, 10);      // strong enemies
-    }
+    // Gradual enemy pool shift: every 3 stages, one weak enemy leaves, one stronger enters
+    const startIdx = Math.min(Math.floor((this.currentStage - 1) / 3), 6);
+    const endIdx = Math.min(startIdx + 4, ENEMIES.length);
+    const pool = ENEMIES.slice(startIdx, endIdx);
 
     const template = pool[Math.floor(Math.random() * pool.length)];
     const stage = this.currentStage;
+
+    // Gentle early/mid curve, steeper late game
+    const hp = template.baseHp + Math.round(stage * 6 + stage * stage * 0.3);
+    const atk = template.baseAttack + Math.round(stage * 1.2 + stage * stage * 0.05);
 
     return {
       name: template.name,
       emoji: template.emoji,
       element: template.element,
-      maxHp: template.baseHp + stage * 10,
-      currentHp: template.baseHp + stage * 10,
-      attack: template.baseAttack + stage * 2,
+      maxHp: hp,
+      currentHp: hp,
+      attack: atk,
     };
   }
 
   getGoldReward() {
-    return 30 + this.currentStage * 15;
+    return 30 + this.currentStage * 15 + Math.floor(this.currentStage * this.currentStage * 2);
   }
 
   canAdvance() {
@@ -41,6 +40,14 @@ export class StageSystem {
   advance() {
     if (this.canAdvance()) {
       this.currentStage++;
+      return true;
+    }
+    return false;
+  }
+
+  goBack() {
+    if (this.currentStage > 1) {
+      this.currentStage--;
       return true;
     }
     return false;

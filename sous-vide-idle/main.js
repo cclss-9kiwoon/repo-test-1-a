@@ -16,7 +16,7 @@ let team = [];
 let enemy = null;
 let battleActive = false;
 let battleInterval = null;
-const TICK_MS = 800;
+const TICK_MS = 600;
 
 // --- Initialize ---
 function initTeam() {
@@ -55,21 +55,14 @@ function battleTick() {
     const reward = stageSystem.getGoldReward();
     gold += reward;
     battleSystem.addLog(`🎉 승리! +${reward} 골드`);
+    if (stageSystem.canAdvance()) {
+      battleSystem.addLog('➡️ 다음 스테이지로 진행하거나, 🔄 다시 도전으로 골드를 모으세요!');
+    } else {
+      battleSystem.addLog('🏆 모든 스테이지 클리어! 축하합니다!');
+    }
     battleActive = false;
     clearInterval(battleInterval);
-
-    // Auto-heal team and spawn next
-    setTimeout(() => {
-      refreshTeamStats();
-      if (stageSystem.canAdvance()) {
-        spawnEnemy();
-        startBattle();
-      } else {
-        battleSystem.addLog('🏆 모든 스테이지 클리어! 축하합니다!');
-      }
-      renderAll();
-    }, 600);
-
+    refreshTeamStats();
     renderAll();
     return;
   }
@@ -78,17 +71,10 @@ function battleTick() {
   battleSystem.enemyAttackTeam(enemy, team, elementSystem.getElement());
 
   if (battleSystem.isTeamDead(team)) {
-    battleSystem.addLog('💀 팀이 전멸했습니다... 재도전!');
+    battleSystem.addLog('💀 팀이 전멸했습니다! 강화하거나 속성을 바꿔보세요.');
     battleActive = false;
     clearInterval(battleInterval);
-
-    setTimeout(() => {
-      refreshTeamStats();
-      spawnEnemy();
-      startBattle();
-      renderAll();
-    }, 1000);
-
+    refreshTeamStats();
     renderAll();
     return;
   }
@@ -173,9 +159,10 @@ function renderControls() {
   // Current element display
   document.getElementById('current-element').textContent = `팀 속성: ${elementSystem.getElementLabel(elementSystem.getElement())}`;
 
-  // Next stage button
-  const nextBtn = document.getElementById('btn-next-stage');
-  nextBtn.disabled = battleActive || !stageSystem.canAdvance();
+  // Stage navigation buttons
+  document.getElementById('btn-next-stage').disabled = battleActive || !stageSystem.canAdvance();
+  document.getElementById('btn-replay-stage').disabled = battleActive;
+  document.getElementById('btn-prev-stage').disabled = battleActive || stageSystem.getStage() <= 1;
 }
 
 function renderAll() {
@@ -219,6 +206,25 @@ function setupEvents() {
   document.getElementById('btn-next-stage').addEventListener('click', () => {
     if (!battleActive && stageSystem.canAdvance()) {
       stageSystem.advance();
+      refreshTeamStats();
+      spawnEnemy();
+      startBattle();
+      renderAll();
+    }
+  });
+
+  document.getElementById('btn-replay-stage').addEventListener('click', () => {
+    if (!battleActive) {
+      refreshTeamStats();
+      spawnEnemy();
+      startBattle();
+      renderAll();
+    }
+  });
+
+  document.getElementById('btn-prev-stage').addEventListener('click', () => {
+    if (!battleActive && stageSystem.getStage() > 1) {
+      stageSystem.goBack();
       refreshTeamStats();
       spawnEnemy();
       startBattle();

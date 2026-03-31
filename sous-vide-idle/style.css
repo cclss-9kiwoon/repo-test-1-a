@@ -250,8 +250,8 @@ header h1 {
   cursor: not-allowed;
 }
 
-/* Next Stage Button */
-.next-btn {
+/* Stage Navigation Buttons */
+.stage-btn {
   width: 100%;
   padding: 10px;
   border: 2px solid #f5a623;
@@ -262,17 +262,38 @@ header h1 {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
+  margin-bottom: 6px;
 }
 
-.next-btn:hover:not(:disabled) {
+.stage-btn:hover:not(:disabled) {
   background: #3a3060;
 }
 
-.next-btn:disabled {
+.stage-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
   border-color: #555;
   color: #555;
+}
+
+.replay-btn {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.replay-btn:hover:not(:disabled) {
+  background: #1a3a2a;
+}
+
+.prev-btn {
+  border-color: #666;
+  color: #999;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.prev-btn:hover:not(:disabled) {
+  background: #2a2a3a;
 }
 
 /* Scrollbar */
