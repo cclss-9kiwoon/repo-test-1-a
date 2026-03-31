@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Petit Prince — Sunset</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <p>Loading Sunset...</p>
+    </div>
+  </div>
+
+  <!-- 3D Canvas -->
+  <canvas id="webgl"></canvas>
+
+  <!-- Text Overlay (top-left) -->
+  <div class="planet-text-overlay visible" id="planet-text">
+    <div class="planet-text-line active" data-step="0">
+      <p class="planet-quote" data-ko="&quot;하루는 해 지는 광경을 마흔네 번이나 봤어!&quot;" data-en="&quot;One day I watched the sunset forty-four times!&quot;">"하루는 해 지는 광경을 마흔네 번이나 봤어!"</p>
+    </div>
+    <div class="planet-text-line" data-step="1">
+      <p class="planet-quote" data-ko="잠시 뒤에 너는 또 이렇게 말했어." data-en="A little later you said:">잠시 뒤에 너는 또 이렇게 말했어.</p>
+    </div>
+    <div class="planet-text-line" data-step="2">
+      <p class="planet-quote" data-ko="&quot;있잖아… 나는 몹시 슬플 때면 해 지는 광경을 보고 싶거든…&quot;" data-en="&quot;You know… when one is so terribly sad, one loves sunsets…&quot;">"있잖아… 나는 몹시 슬플 때면 해 지는 광경을 보고 싶거든…"</p>
+    </div>
+    <div class="planet-text-line" data-step="3">
+      <p class="planet-quote" data-ko="&quot;마흔네 번이나 해 지는 걸 봤던 날, 넌 그렇게나 슬펐던 거야?&quot;" data-en="&quot;On the day of the forty-four sunsets, were you really that sad?&quot;">"마흔네 번이나 해 지는 걸 봤던 날, 넌 그렇게나 슬펐던 거야?"</p>
+    </div>
+    <div class="planet-text-line" data-step="4">
+      <p class="planet-quote" data-ko="어린 왕자는 대답하지 않았다." data-en="But the little prince made no reply.">어린 왕자는 대답하지 않았다.</p>
+      <p class="planet-caption" data-ko="— Le Petit Prince" data-en="— The Little Prince">— Le Petit Prince</p>
+    </div>
+  </div>
+
+  <!-- Sunset Counter (bottom-left) -->
+  <div id="sunset-counter">
+    <span id="sunset-count">0</span>번째 해를 바라보는 중
+  </div>
+
+  <!-- Click Hint (bottom-center) -->
+  <div class="planet-click-hint" id="planet-click-hint">
+    인물을 클릭하면 그의 시선으로 볼 수 있어요
+  </div>
+
+  <!-- Controls (top-right) -->
+  <div id="controls">
+    <div class="control-group">
+      <label class="control-label" for="brightness-slider">밝기</label>
+      <input type="range" id="brightness-slider" class="control-slider" min="0" max="100" value="50" /><span class="control-value" id="brightness-val">50</span>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="text-speed-slider">글자 속도</label>
+      <input type="range" id="text-speed-slider" class="control-slider" min="20" max="200" value="100" /><span class="control-value" id="text-speed-val">100</span>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="font-size-slider">글자 크기</label>
+      <input type="range" id="font-size-slider" class="control-slider" min="50" max="150" value="100" /><span class="control-value" id="font-size-val">100</span>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="sunset-speed-slider">해 속도</label>
+      <input type="range" id="sunset-speed-slider" class="control-slider" min="20" max="200" value="100" /><span class="control-value" id="sunset-speed-val">100</span>
+    </div>
+    <div class="control-buttons">
+      <button id="replay-btn" class="control-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 8a6 6 0 0 1 10.2-4.3L11 5h4V1l-1.5 1.5A7.96 7.96 0 0 0 0 8h2zm12 0a6 6 0 0 1-10.2 4.3L5 11H1v4l1.5-1.5A7.96 7.96 0 0 0 16 8h-2z" fill="currentColor"/>
+        </svg>
+        다시 보기
+      </button>
+      <button id="lang-btn" class="control-btn">EN</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

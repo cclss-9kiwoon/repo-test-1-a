@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Showcase — 3D Weather Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <p>Loading Experience...</p>
+    </div>
+  </div>
+
+  <!-- 3D Canvas -->
+  <canvas id="webgl"></canvas>
+
+  <!-- Navigation -->
+  <nav id="weather-nav">
+    <div class="nav-logo">WEATHER</div>
+    <div class="nav-buttons">
+      <button class="nav-btn active" data-scene="thunder">
+        <span class="nav-icon">⚡</span>
+        <span class="nav-label">Thunder</span>
+      </button>
+      <button class="nav-btn" data-scene="rain">
+        <span class="nav-icon">🌧</span>
+        <span class="nav-label">Rain</span>
+      </button>
+      <button class="nav-btn" data-scene="snow">
+        <span class="nav-icon">❄</span>
+        <span class="nav-label">Snow</span>
+      </button>
+      <button class="nav-btn" data-scene="sunny">
+        <span class="nav-icon">☀</span>
+        <span class="nav-label">Sunny</span>
+      </button>
+      <button class="nav-btn" data-scene="wind">
+        <span class="nav-icon">💨</span>
+        <span class="nav-label">Wind</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Scroll Content -->
+  <div id="scroll-content">
+    <!-- Hero Section -->
+    <section id="section-hero" class="weather-section hero-section">
+      <div class="section-content">
+        <h1 class="hero-title">
+          <span class="hero-line">EXPERIENCE</span>
+          <span class="hero-line accent">WEATHER</span>
+          <span class="hero-line">LIKE NEVER BEFORE</span>
+        </h1>
+        <p class="hero-subtitle">Scroll to explore the beauty of nature's forces in stunning 3D</p>
+        <div class="scroll-indicator">
+          <div class="scroll-arrow"></div>
+          <span>Scroll to explore</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Thunder Section -->
+    <section id="section-thunder" class="weather-section">
+      <div class="section-content">
+        <div class="weather-label">01</div>
+        <h2 class="weather-title">THUNDER</h2>
+        <p class="weather-desc">When the sky splits open<br/>and electricity dances through the darkness.</p>
+        <div class="weather-stats">
+          <div class="stat">
+            <span class="stat-value">300,000</span>
+            <span class="stat-label">km/s bolt speed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">30,000°C</span>
+            <span class="stat-label">lightning temperature</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rain Section -->
+    <section id="section-rain" class="weather-section">
+      <div class="section-content">
+        <div class="weather-label">02</div>
+        <h2 class="weather-title">RAIN</h2>
+        <p class="weather-desc">Millions of drops descending,<br/>painting the world in silver streaks.</p>
+        <div class="weather-stats">
+          <div class="stat">
+            <span class="stat-value">2,000</span>
+            <span class="stat-label">drops per m² per hour</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">9 m/s</span>
+            <span class="stat-label">terminal velocity</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Snow Section -->
+    <section id="section-snow" class="weather-section">
+      <div class="section-content">
+        <div class="weather-label">03</div>
+        <h2 class="weather-title">SNOW</h2>
+        <p class="weather-desc">Each flake a unique crystal,<br/>falling in silent perfection.</p>
+        <div class="weather-stats">
+          <div class="stat">
+            <span class="stat-value">10³⁵</span>
+            <span class="stat-label">possible shapes</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">1.5 m/s</span>
+            <span class="stat-label">gentle descent</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sunny Section -->
+    <section id="section-sunny" class="weather-section">
+      <div class="section-content">
+        <div class="weather-label">04</div>
+        <h2 class="weather-title">SUNNY</h2>
+        <p class="weather-desc">The star that gives life,<br/>bathing the world in golden warmth.</p>
+        <div class="weather-stats">
+          <div class="stat">
+            <span class="stat-value">5,500°C</span>
+            <span class="stat-label">surface temperature</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">8 min</span>
+            <span class="stat-label">light travel time</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wind Section -->
+    <section id="section-wind" class="weather-section">
+      <div class="section-content">
+        <div class="weather-label">05</div>
+        <h2 class="weather-title">WIND</h2>
+        <p class="weather-desc">The invisible force that shapes<br/>mountains and moves oceans.</p>
+        <div class="weather-stats">
+          <div class="stat">
+            <span class="stat-value">408 km/h</span>
+            <span class="stat-label">fastest recorded gust</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">∞</span>
+            <span class="stat-label">paths it travels</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="section-footer" class="weather-section footer-section">
+      <div class="section-content">
+        <h2 class="footer-title">WEATHER IS ART</h2>
+        <p class="footer-desc">Built with Three.js & GSAP</p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

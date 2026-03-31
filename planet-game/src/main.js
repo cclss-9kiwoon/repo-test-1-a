@@ -1,0 +1,259 @@
+import './style.css';
+import { SceneManager } from './scene/SceneManager.js';
+import { PlanetSunsetScene } from './weather/PlanetSunsetScene.js';
+
+class App {
+  constructor() {
+    this.sceneManager = null;
+    this.planetScene = null;
+
+    // Auto-play state
+    this._progress = 0;        // 0 → 1 over duration
+    this._playing = true;
+    this._baseDuration = 10;   // base seconds
+    this._duration = 10;       // effective seconds (base / speed)
+    this._startTime = 0;
+    this._brightness = 0.5;    // 0 → 1 (slider maps 0–100 to 0–1)
+    this._lang = 'ko';
+    this._sunsetCount = 0;
+
+    // Independent text timer
+    this._textProgress = 0;
+    this._textBaseDuration = 10;
+    this._textDuration = 10;
+    this._textStartTime = 0;
+
+    try {
+      this._init();
+    } catch (e) {
+      console.error('App init error:', e);
+      this._hideLoader();
+    }
+  }
+
+  _hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.add('hidden');
+  }
+
+  _init() {
+    const canvas = document.getElementById('webgl');
+    if (!canvas) return;
+
+    // Scene manager
+    this.sceneManager = new SceneManager(canvas);
+
+    // Register planet scene only
+    const { scene, camera } = this.sceneManager;
+    this.planetScene = new PlanetSunsetScene(scene, camera);
+    this.sceneManager.registerScene('planet', this.planetScene);
+    this.sceneManager.switchScene('planet');
+
+    // Pass brightness to scene
+    this.planetScene._brightness = this._brightness;
+
+    // Controls
+    this._initControls();
+
+    // Show click hint after 2s
+    setTimeout(() => {
+      const hint = document.getElementById('planet-click-hint');
+      if (hint) hint.classList.add('visible');
+    }, 2000);
+
+    // Start animation
+    this._startTime = performance.now();
+    this._textStartTime = performance.now();
+    this._animate();
+
+    // Hide loader
+    setTimeout(() => this._hideLoader(), 600);
+  }
+
+  _initControls() {
+    // Replay button
+    const replayBtn = document.getElementById('replay-btn');
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => this._replay());
+    }
+
+    // Brightness slider
+    const brightnessSlider = document.getElementById('brightness-slider');
+    if (brightnessSlider) {
+      brightnessSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        this._brightness = val / 100;
+        if (this.planetScene) {
+          this.planetScene._brightness = this._brightness;
+        }
+        this.sceneManager.renderer.toneMappingExposure = 0.4 + this._brightness * 1.2;
+        this._setVal('brightness-val', val);
+      });
+      this.sceneManager.renderer.toneMappingExposure = 0.4 + this._brightness * 1.2;
+    }
+
+    // Text speed slider — controls independent text timer + transition
+    const textSpeedSlider = document.getElementById('text-speed-slider');
+    if (textSpeedSlider) {
+      textSpeedSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        const mult = val / 100; // 0.2 ~ 2.0
+        const newDuration = this._textBaseDuration / mult;
+        // Preserve current text progress
+        if (this._playing) {
+          const currentTextProgress = this._textProgress;
+          this._textDuration = newDuration;
+          this._textStartTime = performance.now() - (currentTextProgress * newDuration * 1000);
+        } else {
+          this._textDuration = newDuration;
+        }
+        // Also adjust CSS transition speed
+        const dur = 0.8 / mult;
+        document.querySelectorAll('.planet-text-line').forEach(el => {
+          el.style.transitionDuration = dur + 's';
+        });
+        this._setVal('text-speed-val', val);
+      });
+    }
+
+    // Font size slider — controls --font-scale CSS variable
+    const fontSizeSlider = document.getElementById('font-size-slider');
+    if (fontSizeSlider) {
+      fontSizeSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        const scale = val / 100; // 0.5 ~ 1.5
+        document.documentElement.style.setProperty('--font-scale', scale);
+        this._setVal('font-size-val', val);
+      });
+    }
+
+    // Sunset speed slider — controls sun animation duration
+    const sunsetSpeedSlider = document.getElementById('sunset-speed-slider');
+    if (sunsetSpeedSlider) {
+      sunsetSpeedSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        const mult = val / 100; // 0.2 ~ 2.0
+        const newDuration = this._baseDuration / mult;
+        // Preserve current progress position
+        if (this._playing) {
+          const currentProgress = this._progress;
+          this._duration = newDuration;
+          this._startTime = performance.now() - (currentProgress * newDuration * 1000);
+        } else {
+          this._duration = newDuration;
+        }
+        this._setVal('sunset-speed-val', val);
+      });
+    }
+
+    // Language toggle button
+    const langBtn = document.getElementById('lang-btn');
+    if (langBtn) {
+      langBtn.addEventListener('click', () => this._toggleLang());
+    }
+  }
+
+  _setVal(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  _updateCounter() {
+    const counter = document.getElementById('sunset-counter');
+    if (!counter) return;
+    const count = document.getElementById('sunset-count');
+    if (count) count.textContent = this._sunsetCount;
+    // Update surrounding text based on language
+    const textNode = counter.childNodes[counter.childNodes.length - 1];
+    if (textNode) {
+      textNode.textContent = this._lang === 'ko'
+        ? '번째 해를 바라보는 중'
+        : ' sunsets watched';
+    }
+    // Show crown at 4+ sunsets
+    if (this.planetScene && this.planetScene._crown) {
+      this.planetScene._crown.visible = this._sunsetCount >= 4;
+    }
+  }
+
+  _toggleLang() {
+    this._lang = this._lang === 'ko' ? 'en' : 'ko';
+    document.querySelectorAll('.planet-quote').forEach(el => {
+      if (el.dataset[this._lang]) {
+        el.textContent = el.dataset[this._lang];
+      }
+    });
+    document.querySelectorAll('.planet-caption').forEach(el => {
+      if (el.dataset[this._lang]) {
+        el.textContent = el.dataset[this._lang];
+      }
+    });
+    const langBtn = document.getElementById('lang-btn');
+    if (langBtn) {
+      langBtn.textContent = this._lang === 'ko' ? 'EN' : 'KO';
+    }
+    this._updateCounter();
+  }
+
+  _replay() {
+    this._sunsetCount++;
+    this._updateCounter();
+
+    this._startTime = performance.now();
+    this._textStartTime = performance.now();
+    this._progress = 0;
+    this._textProgress = 0;
+    this._playing = true;
+
+    // Reset text to first step
+    const lines = document.querySelectorAll('.planet-text-line');
+    lines.forEach(line => {
+      line.classList.toggle('active', line.dataset.step === '0');
+    });
+  }
+
+  _animate() {
+    requestAnimationFrame(() => this._animate());
+
+    if (this._playing) {
+      const now = performance.now();
+
+      // Sunset progress
+      const elapsed = (now - this._startTime) / 1000;
+      this._progress = Math.min(1, elapsed / this._duration);
+
+      // Text progress (independent)
+      const textElapsed = (now - this._textStartTime) / 1000;
+      this._textProgress = Math.min(1, textElapsed / this._textDuration);
+
+      // Update text step based on textProgress
+      this._updateTextStep(this._textProgress);
+
+      if (this._progress >= 1) {
+        this._playing = false;
+        this._sunsetCount++;
+        this._updateCounter();
+      }
+    }
+
+    // Feed sunset progress into scene manager
+    this.sceneManager.update({ sectionProgress: this._progress });
+  }
+
+  _updateTextStep(progress) {
+    let step;
+    if (progress < 0.2) step = 0;
+    else if (progress < 0.4) step = 1;
+    else if (progress < 0.6) step = 2;
+    else if (progress < 0.8) step = 3;
+    else step = 4;
+
+    const lines = document.querySelectorAll('.planet-text-line');
+    lines.forEach(line => {
+      const lineStep = parseInt(line.dataset.step, 10);
+      line.classList.toggle('active', lineStep === step);
+    });
+  }
+}
+
+new App();

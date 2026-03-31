@@ -1,0 +1,322 @@
+/* ============================================
+   Le Petit Prince — Sunset
+   ============================================ */
+
+:root {
+  --color-bg: #0a0515;
+  --color-text: #fff5e6;
+  --color-accent: #ff8833;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   Loading Screen
+   ============================================ */
+
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #0a0515;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 200, 100, 0.15);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-content p {
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  color: var(--color-accent);
+}
+
+/* ============================================
+   WebGL Canvas
+   ============================================ */
+
+#webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+/* ============================================
+   Planet Text Overlay (top-left fixed)
+   ============================================ */
+
+.planet-text-overlay {
+  position: fixed;
+  top: 48px;
+  left: 48px;
+  z-index: 15;
+  width: 50%;
+  max-width: 50vw;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.planet-text-overlay.visible {
+  opacity: 1;
+}
+
+.planet-text-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.planet-text-line.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.planet-quote {
+  font-size: calc(clamp(20px, 3vw, 32px) * var(--font-scale, 1));
+  font-weight: 300;
+  line-height: 1.7;
+  word-break: keep-all;
+  color: rgba(255, 240, 220, 0.85);
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.planet-caption {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: rgba(255, 200, 130, 0.5);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+#sunset-counter {
+  position: fixed;
+  bottom: 48px;
+  left: 48px;
+  z-index: 15;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  color: rgba(255, 220, 180, 0.5);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.planet-click-hint {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  color: rgba(255, 220, 180, 0.5);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+  white-space: nowrap;
+}
+
+.planet-click-hint.visible {
+  opacity: 1;
+}
+
+/* ============================================
+   Controls (top-right)
+   ============================================ */
+
+#controls {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(10, 5, 20, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 150, 50, 0.1);
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-label {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: rgba(255, 220, 180, 0.5);
+  white-space: nowrap;
+}
+
+.control-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 150, 50, 0.15);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.control-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.control-value {
+  min-width: 28px;
+  text-align: right;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 220, 180, 0.4);
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 150, 50, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 150, 50, 0.08);
+  color: rgba(255, 220, 180, 0.7);
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.control-btn:hover {
+  background: rgba(255, 150, 50, 0.2);
+  color: rgba(255, 220, 180, 0.9);
+  border-color: rgba(255, 150, 50, 0.4);
+}
+
+.control-btn svg {
+  flex-shrink: 0;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+  .planet-text-overlay {
+    top: 24px;
+    left: 24px;
+    max-width: 50vw;
+  }
+
+  #sunset-counter {
+    bottom: 32px;
+    left: 24px;
+  }
+
+  .planet-click-hint {
+    bottom: 32px;
+    font-size: 12px;
+  }
+
+  #controls {
+    top: auto;
+    bottom: 80px;
+    right: 16px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .control-slider {
+    width: 60px;
+  }
+
+  .control-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
