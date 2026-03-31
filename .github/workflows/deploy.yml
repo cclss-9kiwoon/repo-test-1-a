@@ -45,10 +45,13 @@ jobs:
       # Assemble final site
       - name: Assemble site
         run: |
-          mkdir -p _site/weather _site/sunset
+          mkdir -p _site/weather _site/sunset _site/sous-vide-idle
           cp landing/index.html _site/
           cp -r dist/* _site/weather/
           cp -r planet-game/dist/* _site/sunset/
+          cp -r sous-vide-idle/*.html sous-vide-idle/*.css sous-vide-idle/*.js _site/sous-vide-idle/
+          cp -r sous-vide-idle/data _site/sous-vide-idle/data
+          cp -r sous-vide-idle/systems _site/sous-vide-idle/systems
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
