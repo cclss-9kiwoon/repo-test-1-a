@@ -42,8 +42,19 @@
     #gameover-screen h2 { color: #cc4444; font-size: 28px; margin-bottom: 12px; }
     #gameover-screen p { color: #888; margin-bottom: 16px; }
     #gameover-screen button { padding: 8px 24px; background: #333; color: #ffcc44; border: 1px solid #555; border-radius: 4px; cursor: pointer; font-size: 13px; font-family: monospace; }
+    #admin-toggle { position: absolute; bottom: 12px; left: 12px; padding: 4px 10px; background: rgba(34,34,51,0.8); color: #888; border: 1px solid #444; border-radius: 4px; cursor: pointer; font-size: 10px; font-family: monospace; z-index: 15; }
+    #admin-toggle:hover { color: #ffcc44; border-color: #ffcc44; }
+    #admin-panel { position: absolute; bottom: 40px; left: 12px; width: 260px; background: rgba(17,17,34,0.95); border: 1px solid #555; border-radius: 6px; padding: 12px; display: none; z-index: 15; }
+    #admin-panel h4 { color: #ccccaa; font-size: 12px; margin-bottom: 10px; text-align: center; }
+    .admin-row { margin-bottom: 8px; }
+    .admin-row label { display: block; font-size: 9px; color: #888; margin-bottom: 2px; }
+    .admin-row .admin-inputs { display: flex; gap: 6px; align-items: center; }
+    .admin-row input[type="range"] { flex: 1; height: 4px; accent-color: #ffcc44; }
+    .admin-row input[type="number"] { width: 54px; padding: 2px 4px; background: #222233; color: #ccc; border: 1px solid #444; border-radius: 3px; font-size: 10px; font-family: monospace; text-align: right; }
+    #admin-apply { display: block; width: 100%; padding: 5px; margin-top: 8px; background: #333344; color: #ffcc44; border: 1px solid #555; border-radius: 3px; cursor: pointer; font-size: 11px; font-family: monospace; }
+    #admin-apply:hover { color: #fff; border-color: #ffcc44; }
   </style>
-  <script type="module" crossorigin src="/repo-test-1-a/dark-forest-star/assets/index-DgFOLOcT.js"></script>
+  <script type="module" crossorigin src="/repo-test-1-a/dark-forest-star/assets/index-BiiXZq_h.js"></script>
 </head>
 <body>
   <canvas id="game-canvas"></canvas>
@@ -63,6 +74,46 @@
     <div id="message-text"></div>
     <div id="controls-hint">WASD 이동 | Q 클로킹 | SPACE 공격 | Z 채굴 | E 인벤토리</div>
     <div id="mining-bar"><div id="mining-fill"></div></div>
+    <button id="admin-toggle">⚙ 관리자</button>
+    <div id="admin-panel">
+      <h4>관리자 모드</h4>
+      <div class="admin-row">
+        <label>밝기 (exposure)</label>
+        <div class="admin-inputs">
+          <input type="range" id="admin-brightness" min="0.5" max="3" step="0.1" value="1.0">
+          <input type="number" id="admin-brightness-val" min="0.5" max="3" step="0.1" value="1.0">
+        </div>
+      </div>
+      <div class="admin-row">
+        <label>몬스터 수</label>
+        <div class="admin-inputs">
+          <input type="range" id="admin-enemy-count" min="0" max="30" step="1" value="8">
+          <input type="number" id="admin-enemy-count-val" min="0" max="30" step="1" value="8">
+        </div>
+      </div>
+      <div class="admin-row">
+        <label>별 조각 수</label>
+        <div class="admin-inputs">
+          <input type="range" id="admin-frag-count" min="0" max="100" step="1" value="20">
+          <input type="number" id="admin-frag-count-val" min="0" max="100" step="1" value="20">
+        </div>
+      </div>
+      <div class="admin-row">
+        <label>몬스터 이동속도 (배율)</label>
+        <div class="admin-inputs">
+          <input type="range" id="admin-enemy-speed" min="0" max="3" step="0.1" value="1.0">
+          <input type="number" id="admin-enemy-speed-val" min="0" max="3" step="0.1" value="1.0">
+        </div>
+      </div>
+      <div class="admin-row">
+        <label>데미지 (배율)</label>
+        <div class="admin-inputs">
+          <input type="range" id="admin-damage" min="0" max="5" step="0.1" value="1.0">
+          <input type="number" id="admin-damage-val" min="0" max="5" step="0.1" value="1.0">
+        </div>
+      </div>
+      <button id="admin-apply">적용</button>
+    </div>
   </div>
   <div id="inventory-panel">
     <h3 id="inv-title">별 주머니</h3>
