@@ -417,12 +417,12 @@ function render(time) {
 
     // Warning during special setup/rising/hovering
     if (dragon.state === DS_SPECIAL_SETUP || dragon.state === DS_SPECIAL_RISING || dragon.state === DS_SPECIAL_HOVERING) {
-        drawWarning(ctx, '⚠ 별 안으로! ⚠');
+        drawWarning(ctx, '⚠');
     }
 
     // Warning before crash (during sky wait after fire)
     if (dragon.state === DS_SPECIAL_CRASH && dragon.specialTimer < 2.0) {
-        drawWarning(ctx, '⚠ 별 밖으로! ⚠');
+        drawWarning(ctx, '⚠');
     }
 
     // Victory fade

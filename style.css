@@ -29,13 +29,13 @@ html, body {
     z-index: 100;
     padding: 6px 14px;
     font: bold 13px monospace;
-    background: rgba(40,40,40,0.85);
-    color: #aaa;
-    border: 1px solid #555;
+    background: #111;
+    color: #111;
+    border: 1px solid #111;
     border-radius: 4px;
     cursor: pointer;
 }
-#admin-toggle:hover { color: #fff; border-color: #888; }
+#admin-toggle:hover { color: #111; border-color: #111; }
 #admin-toggle.active { color: #ffd700; border-color: #ffd700; }
 
 #admin-panel {
