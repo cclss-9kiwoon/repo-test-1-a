@@ -366,17 +366,24 @@ export class Dragon {
 
     _updateSpecialCrash(dt) {
         this.specialTimer += dt;
-        // Scale back up rapidly
-        this.scale = 0.5 + (this.specialTimer / SPECIAL_CRASH_DELAY) * 0.5;
-        if (this.scale > 1) this.scale = 1;
+        const waitTime = 2.0;     // wait in sky after fire ends
+        const descendTime = 0.5;  // descend duration
 
-        if (this.specialTimer >= SPECIAL_CRASH_DELAY) {
+        if (this.specialTimer < waitTime) {
+            // Phase 1: hovering in sky, fire gone
+            this.scale = 0.5;
+        } else if (this.specialTimer < waitTime + descendTime) {
+            // Phase 2: descending
+            const t = (this.specialTimer - waitTime) / descendTime;
+            this.scale = 0.5 + t * 0.5;
+        } else {
+            // Landed
             this.scale = 1;
-            this._setState(DS_STUNNED);
-            this.specialTimer = 0;
-            this.invincible = false;
             this.x = MAP_WIDTH / 2;
             this.y = MAP_HEIGHT / 2;
+            this.invincible = false;
+            this._setState(DS_IDLE);
+            this.idleTimer = 2.0; // 2s before resuming attacks
         }
     }
 
@@ -452,7 +459,7 @@ export class Dragon {
     checkCrashHit(player) {
         if (this.state !== DS_SPECIAL_CRASH) return false;
         if (this.attackHitRegistered) return false;
-        if (this.specialTimer < SPECIAL_CRASH_DELAY * 0.8) return false;
+        if (this.specialTimer < 2.0) return false; // hit check when descending starts
 
         if (circleCircle(player.x, player.y, player.radius, MAP_WIDTH / 2, MAP_HEIGHT / 2, SPECIAL_CRASH_RADIUS)) {
             this.attackHitRegistered = true;
@@ -469,6 +476,17 @@ export class Dragon {
 
     isFireActive() {
         return this.state === DS_SPECIAL_FIRE;
+    }
+
+    getFireOverlayIntensity() {
+        if (this.state === DS_SPECIAL_FIRE) {
+            return Math.min(1, this.specialTimer / 0.5);
+        }
+        // Fade out during early crash phase
+        if (this.state === DS_SPECIAL_CRASH && this.specialTimer < 0.5) {
+            return 1 - this.specialTimer / 0.5;
+        }
+        return 0;
     }
 
     getSpecialHoverTimeLeft() {

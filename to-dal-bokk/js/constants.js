@@ -59,8 +59,8 @@ export const DRAGON_IDLE_TIME_MAX = 2.0;
 export const FIRE_BREATH_TELEGRAPH = 0.8;
 export const FIRE_BREATH_ACTIVE = 1.2;
 export const FIRE_BREATH_RECOVERY = 0.6;
-export const FIRE_BREATH_RANGE = 180;
-export const FIRE_BREATH_SPREAD = Math.PI / 3;  // 60 degrees
+export const FIRE_BREATH_RANGE = 250;
+export const FIRE_BREATH_SPREAD = Math.PI / 2.5;  // 72 degrees
 export const FIRE_BREATH_TRACK_SPEED = 0.35;    // rad/s
 
 // Tail swipe
@@ -74,8 +74,8 @@ export const TAIL_SWIPE_ARC = Math.PI * 1.5;    // 270 degrees
 export const WING_GUST_TELEGRAPH = 0.7;
 export const WING_GUST_ACTIVE = 0.6;
 export const WING_GUST_RECOVERY = 0.5;
-export const WING_GUST_RANGE = 250;
-export const WING_GUST_SPREAD = Math.PI / 2;    // 90 degrees
+export const WING_GUST_RANGE = 320;
+export const WING_GUST_SPREAD = Math.PI / 1.5;  // 120 degrees
 export const WING_GUST_PUSH_SPEED = 200;
 
 // Special phase
@@ -84,7 +84,7 @@ export const SPECIAL_STAR_GROW_TIME = 1.0;
 export const SPECIAL_RISE_TIME = 1.5;
 export const SPECIAL_HOVER_TIME = 5.0;
 export const SPECIAL_FIRE_DURATION = 2.0;
-export const SPECIAL_CRASH_DELAY = 0.5;
+export const SPECIAL_CRASH_DELAY = 2.5; // 2s wait + 0.5s descend
 export const SPECIAL_CRASH_RADIUS = 70;
 export const SPECIAL_STUN_TIME = 2.0;
 export const STAR_RADIUS = 90;
