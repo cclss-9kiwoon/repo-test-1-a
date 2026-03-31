@@ -270,8 +270,15 @@ export class Dragon {
                 this._advanceAttackPhase(WING_GUST_ACTIVE, WING_GUST_RECOVERY);
             }
         } else if (this.attackPhase === AP_ACTIVE) {
-            // Emit wind particles
-            emitParticles('wind', this.x, this.y, this.facing, 2);
+            // Emit wind particles from both wings
+            const perpAngle = this.facing + Math.PI / 2;
+            const wingDist = DRAGON_RADIUS * 0.7;
+            const lx = this.x + Math.cos(perpAngle) * wingDist;
+            const ly = this.y + Math.sin(perpAngle) * wingDist;
+            emitParticles('wind', lx, ly, this.facing, 2);
+            const rx = this.x - Math.cos(perpAngle) * wingDist;
+            const ry = this.y - Math.sin(perpAngle) * wingDist;
+            emitParticles('wind', rx, ry, this.facing, 2);
             if (this.attackTimer >= this.attackDuration) {
                 this._advanceAttackPhase(0, WING_GUST_RECOVERY);
             }
