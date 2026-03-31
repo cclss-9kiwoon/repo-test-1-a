@@ -3,7 +3,7 @@ import {
     PLAYER_BASE_HP, DRAGON_BASE_HP, EGG_BASE_COUNT,
     NG_PLUS_HP_INCREMENT, NG_PLUS_DRAGON_HP_INCREMENT, EGG_NG_PLUS_INCREMENT,
     NG_PLUS_DRAGON_SPEED_MULT, STAR_RADIUS,
-    WING_GUST_PUSH_SPEED,
+    WING_GUST_PUSH_SPEED, attackConfig,
     STATE_TITLE, STATE_PLAYING, STATE_BOSS_SPECIAL,
     STATE_EGGS_BURNED, STATE_VICTORY, STATE_VICTORY_SCREEN, STATE_DEATH,
     PS_DEAD, DS_DEAD, DS_SPECIAL_SETUP, DS_SPECIAL_RISING,
@@ -17,7 +17,7 @@ import { GameMap } from './map.js';
 import { Camera } from './camera.js';
 import { updateInput, justPressed } from './input.js';
 import { updateParticles, drawParticles, clearParticles, emitParticles } from './particles.js';
-import { drawTomato, drawDragon, drawMapFire } from './draw.js';
+import { drawTomato, drawDragon, drawMapFire, drawDebugHitboxes } from './draw.js';
 import { drawUI, drawWarning, getVictoryButtonBounds } from './ui.js';
 import { circleInArcSimple, angleBetween, pointInStar, distance } from './collision.js';
 
@@ -42,6 +42,44 @@ let dragon = new Dragon(DRAGON_BASE_HP);
 let eggs = new EggManager();
 let gameMap = new GameMap();
 let camera = new Camera();
+
+// ===== ADMIN DEBUG MODE =====
+let debugMode = false;
+const adminToggle = document.getElementById('admin-toggle');
+const adminPanel = document.getElementById('admin-panel');
+
+function setupAdminPanel() {
+    const sliders = {
+        'slider-fire-range': { key: 'fireBreathRange', unit: 'px' },
+        'slider-fire-spread': { key: 'fireBreathSpread', unit: '°', toRad: true },
+        'slider-wind-range': { key: 'wingGustRange', unit: 'px' },
+        'slider-wind-spread': { key: 'wingGustSpread', unit: '°', toRad: true },
+        'slider-tail-range': { key: 'tailSwipeRange', unit: 'px' },
+        'slider-tail-arc': { key: 'tailSwipeArc', unit: '°', toRad: true },
+    };
+
+    for (const [id, cfg] of Object.entries(sliders)) {
+        const slider = document.getElementById(id);
+        const valSpan = document.getElementById('val-' + id.replace('slider-', ''));
+        const currentVal = cfg.toRad ? Math.round(attackConfig[cfg.key] * 180 / Math.PI) : attackConfig[cfg.key];
+        slider.value = currentVal;
+        valSpan.textContent = currentVal + cfg.unit;
+
+        slider.addEventListener('input', () => {
+            const v = Number(slider.value);
+            valSpan.textContent = v + cfg.unit;
+            attackConfig[cfg.key] = cfg.toRad ? v * Math.PI / 180 : v;
+        });
+    }
+}
+
+adminToggle.addEventListener('click', () => {
+    debugMode = !debugMode;
+    adminToggle.classList.toggle('active', debugMode);
+    adminPanel.classList.toggle('hidden', !debugMode);
+});
+
+setupAdminPanel();
 
 // ===== CLICK HANDLER (for victory screen button) =====
 canvas.addEventListener('click', (e) => {
@@ -360,6 +398,11 @@ function render(time) {
 
     // Particles (world space)
     drawParticles(ctx);
+
+    // Debug hitboxes (world space)
+    if (debugMode) {
+        drawDebugHitboxes(ctx, dragon, player);
+    }
 
     // Special phase fire overlay (with fade-out into crash)
     const fireIntensity = dragon.getFireOverlayIntensity();

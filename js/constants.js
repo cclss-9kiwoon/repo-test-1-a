@@ -167,3 +167,13 @@ export const DS_DEAD = 'DEAD';
 export const AP_WINDUP = 'WINDUP';
 export const AP_ACTIVE = 'ACTIVE';
 export const AP_RECOVERY = 'RECOVERY';
+
+// ===== MUTABLE ATTACK CONFIG (for admin sliders) =====
+export const attackConfig = {
+    fireBreathRange: FIRE_BREATH_RANGE,
+    fireBreathSpread: FIRE_BREATH_SPREAD,
+    wingGustRange: WING_GUST_RANGE,
+    wingGustSpread: WING_GUST_SPREAD,
+    tailSwipeRange: TAIL_SWIPE_RANGE,
+    tailSwipeArc: TAIL_SWIPE_ARC,
+};

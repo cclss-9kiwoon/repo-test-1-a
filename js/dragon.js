@@ -7,6 +7,7 @@ import {
     TAIL_SWIPE_RANGE, TAIL_SWIPE_ARC,
     WING_GUST_TELEGRAPH, WING_GUST_ACTIVE, WING_GUST_RECOVERY,
     WING_GUST_RANGE, WING_GUST_SPREAD, WING_GUST_PUSH_SPEED,
+    attackConfig,
     SPECIAL_HP_THRESHOLD, SPECIAL_STAR_GROW_TIME, SPECIAL_RISE_TIME,
     SPECIAL_HOVER_TIME, SPECIAL_FIRE_DURATION, SPECIAL_CRASH_DELAY,
     SPECIAL_CRASH_RADIUS, SPECIAL_STUN_TIME, STAR_RADIUS,
@@ -428,7 +429,7 @@ export class Dragon {
         const fx = this.x + Math.cos(this.facing) * headDist;
         const fy = this.y + Math.sin(this.facing) * headDist;
 
-        if (circleInCone(player.x, player.y, player.radius, fx, fy, this.facing, FIRE_BREATH_SPREAD, FIRE_BREATH_RANGE)) {
+        if (circleInCone(player.x, player.y, player.radius, fx, fy, this.facing, attackConfig.fireBreathSpread, attackConfig.fireBreathRange)) {
             this.attackHitRegistered = true;
             return true;
         }
@@ -440,7 +441,7 @@ export class Dragon {
         if (this.attackHitRegistered) return false;
 
         const tailAngle = this.facing + Math.PI;
-        if (circleInArcSimple(player.x, player.y, player.radius, this.x, this.y, TAIL_SWIPE_RANGE, tailAngle, TAIL_SWIPE_ARC)) {
+        if (circleInArcSimple(player.x, player.y, player.radius, this.x, this.y, attackConfig.tailSwipeRange, tailAngle, attackConfig.tailSwipeArc)) {
             this.attackHitRegistered = true;
             return true;
         }
@@ -450,7 +451,7 @@ export class Dragon {
     checkWingGustHit(player) {
         if (this.state !== DS_WING_GUST || this.attackPhase !== AP_ACTIVE) return false;
 
-        if (circleInCone(player.x, player.y, player.radius, this.x, this.y, this.facing, WING_GUST_SPREAD, WING_GUST_RANGE)) {
+        if (circleInCone(player.x, player.y, player.radius, this.x, this.y, this.facing, attackConfig.wingGustSpread, attackConfig.wingGustRange)) {
             return true; // pushback, called every frame
         }
         return false;

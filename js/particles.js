@@ -17,15 +17,15 @@ function createParticle(type, x, y, angle) {
 
     switch (type) {
         case 'fire': {
-            const spread = (Math.random() - 0.5) * 0.8;
-            const speed = 60 + Math.random() * 80;
+            const spread = (Math.random() - 0.5) * 1.3;
+            const speed = 150 + Math.random() * 180;
             const a = angle + spread;
             return {
                 ...base,
                 vx: Math.cos(a) * speed,
-                vy: Math.sin(a) * speed - 20,
-                maxLife: 0.3 + Math.random() * 0.5,
-                radius: 2 + Math.random() * 4,
+                vy: Math.sin(a) * speed - 15,
+                maxLife: 0.4 + Math.random() * 0.5,
+                radius: 3 + Math.random() * 5,
                 color: COLOR_FIRE[Math.floor(Math.random() * COLOR_FIRE.length)],
                 type: 'fire'
             };
@@ -42,14 +42,14 @@ function createParticle(type, x, y, angle) {
             };
         }
         case 'wind': {
-            const spread = (Math.random() - 0.5) * 0.5;
-            const speed = 200 + Math.random() * 150;
+            const spread = (Math.random() - 0.5) * 1.4;
+            const speed = 300 + Math.random() * 250;
             const a = angle + spread;
             return {
                 ...base,
                 vx: Math.cos(a) * speed,
                 vy: Math.sin(a) * speed,
-                maxLife: 0.2 + Math.random() * 0.3,
+                maxLife: 0.3 + Math.random() * 0.5,
                 radius: 2,
                 length: 8,
                 color: 'rgba(255,255,255,0.5)',
