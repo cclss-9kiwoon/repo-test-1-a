@@ -1,0 +1,2 @@
+:HL["/repo-test-1-a/test-tale-one/_next/static/chunks/6f117f856ee2964c.css","style"]
+0:{"buildId":"dyB7vCZnioIG_fqbZjefK","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"/_not-found","paramType":null,"paramKey":"/_not-found","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
